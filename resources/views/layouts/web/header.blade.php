@@ -23,7 +23,7 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a href="#" class="btn btn-masuk btn-sm">Masuk</a>
+                <a href="/login" class="btn btn-masuk btn-sm">Masuk</a>
             </div>
         </div>
     </div>
