@@ -1,0 +1,431 @@
+:root {
+    --color-light: #E2DADA;
+    --color-dark-purple: #370075;
+    --color-primary: #5D16A6;
+    --color-secondary: #9683EC;
+    --color-accent: #F7B801;
+    --color-orange: #F18701;
+    --color-white: #FFFFFF;
+    --color-black: #1E1E1E;
+    --color-grey: #999999;
+
+    --color-text: #555555;
+    --bg-color-1: #F8F4FF;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-white);
+    color: var(--color-black);
+    overflow-x: hidden;
+}
+
+/* Typography Helpers */
+.text-purple { color: var(--color-primary); }
+.text-dark-purple { color: var(--color-dark-purple); }
+.text-accent { color: var(--color-accent); }
+.text-orange { color: var(--color-orange); }
+.text-description { color: var(--color-text); }
+.text-footer { color: var(--color-grey); }
+
+/* Header & Navbar */
+.navbar {
+    background-color: var(--color-white);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--color-black) !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-link {
+    color: var(--color-black) !important;
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+.nav-link.active {
+    color: var(--color-primary) !important;
+}
+
+.btn-masuk {
+    background-color: var(--color-primary);
+    color: var(--color-white) !important;
+    border-radius: 50px;
+    padding: 8px 30px;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-masuk:hover {
+    background-color: var(--color-dark-purple);
+}
+
+/* Hero Section */
+.hero-section {
+    /* background: linear-gradient(#3700753D, var(--color-dark-purple)), url('/images/hero.jpeg'); */
+    background: url('/images/bg-hero.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    color: var(--color-white);
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+}
+
+.btn-lihat-jadwal {
+    background-color: var(--color-orange);
+    color: var(--color-white) !important;
+    border-radius: 50px;
+    padding: 12px 35px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-lihat-jadwal:hover {
+    background-color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+/* Section Titles */
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title h2 {
+    font-weight: 700;
+    color: var(--color-primary);
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: var(--color-accent);
+    border-radius: 2px;
+}
+
+/* Program Tes Cards */
+.programtes-section {
+    background-color: var(--bg-color-1);
+    padding: 5rem 0;
+}
+
+.program-card {
+    background: var(--color-white);
+    border: 2px solid var(--color-secondary);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.program-card:hover {
+    box-shadow: 0 10px 30px rgba(93, 22, 166, 0.1);
+    border-color: var(--color-primary);
+}
+
+.program-card img {
+    margin-bottom: 2rem;
+    height: 80px;
+}
+
+.program-card h3 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.program-card p {
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.program-card a {
+    color: var(--color-orange);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Jadwal Tes Cards */
+.jadwaltes-section {
+    background-color: var(--bg-color-1);
+    padding: 5rem 0;
+}
+
+.jadwal-card {
+    background: var(--color-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    height: 100%;
+}
+
+.jadwal-card-header {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 1rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.jadwal-card-body {
+    padding: 2rem;
+}
+
+.jadwal-price {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: var(--color-grey);
+    margin-right: 10px;
+}
+
+.new-price {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.jadwal-item {
+    display: flex;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.jadwal-item .label {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text);
+}
+
+.btn-daftar {
+    background-color: var(--color-primary);
+    color: var(--color-white) !important;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-daftar:hover {
+    background-color: var(--color-dark-purple);
+}
+
+.lihat-semua-link {
+    display: block;
+    text-align: center;
+    color: var(--color-orange);
+    font-weight: 700;
+    margin-top: 2rem;
+    text-decoration: none;
+}
+
+/* Cara Mendaftar */
+.caradaftar-section {
+    background-color: #9683EC29;
+    padding: 5rem 0;
+}
+
+.step-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: var(--color-white);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    height: 100%;
+}
+
+.step-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.step-card h4 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.step-card p {
+    font-size: 0.85rem;
+    color: var(--color-text);
+    margin: 0;
+}
+
+/* Konsultasi Section */
+.konsultasi-section {
+    background: linear-gradient(90deg, #7531BA 50%, #CCADED 100%);
+    padding: 5rem 0;
+    color: var(--color-white);
+    text-align: center;
+}
+
+.btn-chat-admin {
+    background-color: var(--color-orange);
+    color: var(--color-white) !important;
+    border-radius: 50px;
+    padding: 12px 40px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-chat-admin:hover {
+    background-color: var(--color-accent);
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a;
+    color: var(--color-white);
+    padding: 5rem 0 2rem;
+}
+
+.footer-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.footer-socials img {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.footer-socials img:hover {
+    opacity: 1;
+}
+
+.footer-heading {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: var(--color-grey);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--color-white);
+}
+
+.contact-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 1rem;
+    color: var(--color-grey);
+    font-size: 0.9rem;
+}
+
+.contact-item img {
+    width: 20px;
+    height: 20px;
+    /* filter: brightness(0) invert(1); */
+}
+
+.footer-bottom {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: var(--color-grey);
+    font-size: 0.85rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .hero-section h1 { font-size: 2rem; }
+    .hero-section p { font-size: 1.1rem; }
+}
+
+@media (max-width: 767.98px) {
+    .section-title h2 { font-size: 1.75rem; }
+    .program-card { padding: 2rem 1.5rem; }
+    .footer-content { text-align: center; }
+    .footer-brand, .footer-socials { justify-content: center; }
+    .contact-item { justify-content: center; }
+}
