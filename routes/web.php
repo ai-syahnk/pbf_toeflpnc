@@ -8,4 +8,8 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('contents.auth.login');
-});
+})->name('login');
+
+Route::get('/register', function () {
+    return view('contents.auth.register');
+})->name('register');
