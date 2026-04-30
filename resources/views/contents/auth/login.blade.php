@@ -28,20 +28,30 @@
                     </div>
                 @endif
 
-                <form action="#" method="POST">
+                <form action="{{ route('login.store') }}" method="POST">
+                    @csrf
+
                     <div class="mb-4">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-control-custom"
-                            placeholder="aikaeva_darlene.stu@pnc.ac.id" required>
+                        <input type="email" id="email" name="email"
+                            class="form-control-custom @error('email') is-invalid @enderror"
+                            placeholder="aikaeva_darlene.stu@pnc.ac.id" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="password" name="password" class="form-control-custom"
+                            <input type="password" id="password" name="password"
+                                class="form-control-custom @error('password') is-invalid @enderror"
                                 placeholder="********" required>
                             <i class="fas fa-eye-slash password-toggle" id="togglePassword"></i>
                         </div>
+                        @error('password')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="text-end mb-4">
