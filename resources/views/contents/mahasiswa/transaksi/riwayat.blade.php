@@ -32,7 +32,7 @@
                                 <span class="badge badge-status-lulus badge-riwayat">SELESAI</span>
                             </td>
                             <td>
-                                <a href="#" class="btn-detail">DETAIL</a>
+                                <a href="{{ route('transaksi.detail') }}" class="btn-detail">DETAIL</a>
                             </td>
                         </tr>
                         <tr>
@@ -45,7 +45,7 @@
                                 <span class="badge badge-status-lulus badge-riwayat">SELESAI</span>
                             </td>
                             <td>
-                                <a href="#" class="btn-detail">DETAIL</a>
+                                <a href="{{ route('transaksi.detail') }}" class="btn-detail">DETAIL</a>
                             </td>
                         </tr>
                     </tbody>
