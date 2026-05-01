@@ -44,4 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profil/edit', function () {
         return view('contents.mahasiswa.profil.edit');
     })->name('profil.edit');
+
+    Route::get('/transaksi/riwayat', function () {
+        return view('contents.mahasiswa.transaksi.riwayat');
+    })->name('transaksi.riwayat');
 });

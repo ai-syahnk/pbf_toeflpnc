@@ -42,7 +42,7 @@
                                 <img src="{{ asset('icons/profil_edit.png') }}" alt="">
                                 <span>Edit Profil</span>
                             </a>
-                            <a href="#" class="dropdown-item-custom">
+                            <a href="{{ route('transaksi.riwayat') }}" class="dropdown-item-custom">
                                 <img src="{{ asset('icons/transaksi.png') }}" alt="">
                                 <span>Riwayat Transaksi</span>
                             </a>
