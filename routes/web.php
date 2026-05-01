@@ -36,4 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/beranda', function () {
         return view('contents.web.beranda');
     })->name('beranda');
+
+    Route::get('/profil', function () {
+        return view('contents.mahasiswa.profil.index');
+    })->name('profil');
 });

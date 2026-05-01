@@ -34,7 +34,7 @@
                                 <p class="mb-0 text-muted" style="font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ Auth::user()->email }}</p>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item-custom">
+                            <a href="{{ route('profil') }}" class="dropdown-item-custom">
                                 <img src="{{ asset('icons/profil_saya.png') }}" alt="">
                                 <span>Profil Saya</span>
                             </a>
