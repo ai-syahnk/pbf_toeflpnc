@@ -19,7 +19,7 @@
                     <li><a href="/">Beranda</a></li>
                     <li><a href="{{ route('tentang') }}">Tentang</a></li>
                     <li><a href="{{ route('jadwal') }}">Jadwal Tes</a></li>
-                    <li><a href="#">Hasil Tes</a></li>
+                    <li><a href="{{ route('hasiltes') }}">Hasil Tes</a></li>
                 </ul>
             </div>
             <div class="col-lg-4 col-md-6">

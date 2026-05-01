@@ -19,7 +19,7 @@
                     <a class="nav-link {{ request()->routeIs('jadwal') ? 'active' : '' }}" href="{{ route('jadwal') }}">Jadwal Tes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Hasil Tes</a>
+                    <a class="nav-link {{ request()->routeIs('hasiltes') ? 'active' : '' }}" href="{{ route('hasiltes') }}">Hasil Tes</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center justify-content-end justify-content-lg-start">

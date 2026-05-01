@@ -16,6 +16,10 @@ Route::get('/jadwal-tes', function () {
     return view('contents.web.jadwal');
 })->name('jadwal');
 
+Route::get('/hasil-tes', function () {
+    return view('contents.web.hasiltes');
+})->name('hasiltes');
+
 // Auth Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
