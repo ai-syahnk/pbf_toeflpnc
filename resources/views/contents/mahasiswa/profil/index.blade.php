@@ -15,7 +15,7 @@
                         </div>
                         <h2 class="profile-name">{{ Auth::user()->name }}</h2>
                         <p class="profile-email">{{ Auth::user()->email }}</p>
-                        <a href="#" class="btn-edit-profil">
+                        <a href="{{ route('profil.edit') }}" class="btn-edit-profil">
                             <img src="{{ asset('icons/edit.png') }}" alt="" width="16"> Edit Profil
                         </a>
                     </div>

@@ -38,7 +38,7 @@
                                 <img src="{{ asset('icons/profil_saya.png') }}" alt="">
                                 <span>Profil Saya</span>
                             </a>
-                            <a href="#" class="dropdown-item-custom">
+                            <a href="{{ route('profil.edit') }}" class="dropdown-item-custom">
                                 <img src="{{ asset('icons/profil_edit.png') }}" alt="">
                                 <span>Edit Profil</span>
                             </a>
