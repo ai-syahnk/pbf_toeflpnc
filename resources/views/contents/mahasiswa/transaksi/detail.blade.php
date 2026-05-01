@@ -130,7 +130,7 @@
             </div>
 
             <div class="d-flex justify-content-end mb-5">
-                <a href="#" class="btn-kartu-tes">Lihat Kartu Tes</a>
+                <a href="{{ route('transaksi.kartu-tes') }}" class="btn-kartu-tes">Lihat Kartu Tes</a>
             </div>
         </div>
     </section>

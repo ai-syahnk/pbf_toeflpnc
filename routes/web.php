@@ -52,4 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/transaksi/detail', function () {
         return view('contents.mahasiswa.transaksi.detail');
     })->name('transaksi.detail');
+
+    Route::get('/transaksi/kartu-tes', function () {
+        return view('contents.mahasiswa.kartu_tes.show');
+    })->name('transaksi.kartu-tes');
 });
