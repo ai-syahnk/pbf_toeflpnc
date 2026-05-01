@@ -62,7 +62,11 @@
 
                     <div class="text-center mt-4">
                         <p class="small text-muted">Belum memiliki Akun? <a href="{{ route('register') }}"
-                                class="text-primary text-decoration-none fw-bold">Daftar</a></p>
+                                class="text-primary text-decoration-none fw-bold">Daftar</a>
+                            <br>
+                            <i class="fas fa-arrow-left small text-primary"></i>
+                            <a href="/" class="text-primary text-decoration-none small">Kembali ke Beranda</a>
+                        </p>
                     </div>
                 </form>
             </div>

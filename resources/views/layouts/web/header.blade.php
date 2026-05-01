@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="{{ asset('images/logo_pnc_1.png') }}" alt="TOEFL PNC" height="32">
             <span>TOEFL PNC</span>
         </a>
@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto mx-lg-auto mb-2 mb-lg-0 text-end text-lg-start">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Beranda</a>
+                    <a class="nav-link active" href="/">Beranda</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Tentang</a>

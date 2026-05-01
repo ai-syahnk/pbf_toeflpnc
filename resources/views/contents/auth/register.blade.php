@@ -69,7 +69,11 @@
 
                     <div class="text-center mt-4">
                         <p class="small text-muted">Sudah memiliki Akun? <a href="{{ route('login') }}"
-                                class="text-primary text-decoration-none fw-bold">Masuk</a></p>
+                                class="text-primary text-decoration-none fw-bold">Masuk</a>
+                            <br>
+                            <i class="fas fa-arrow-left small text-primary"></i>
+                            <a href="/" class="text-primary text-decoration-none small">Kembali ke Beranda</a>
+                        </p>
                     </div>
                 </form>
             </div>
