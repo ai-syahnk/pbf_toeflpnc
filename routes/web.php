@@ -12,6 +12,10 @@ Route::get('/tentang', function () {
     return view('contents.web.tentang');
 })->name('tentang');
 
+Route::get('/jadwal-tes', function () {
+    return view('contents.web.jadwal');
+})->name('jadwal');
+
 // Auth Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');

@@ -18,7 +18,7 @@
                 <ul class="footer-links">
                     <li><a href="/">Beranda</a></li>
                     <li><a href="{{ route('tentang') }}">Tentang</a></li>
-                    <li><a href="#">Jadwal Tes</a></li>
+                    <li><a href="{{ route('jadwal') }}">Jadwal Tes</a></li>
                     <li><a href="#">Hasil Tes</a></li>
                 </ul>
             </div>
