@@ -16,8 +16,8 @@
             <div class="col-lg-3 col-md-6">
                 <h4 class="footer-heading">QUICK LINKS</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Beranda</a></li>
-                    <li><a href="#">Tentang</a></li>
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="{{ route('tentang') }}">Tentang</a></li>
                     <li><a href="#">Jadwal Tes</a></li>
                     <li><a href="#">Hasil Tes</a></li>
                 </ul>
@@ -25,15 +25,15 @@
             <div class="col-lg-4 col-md-6">
                 <h4 class="footer-heading">CONTACT</h4>
                 <div class="contact-item">
-                    <img src="{{ asset('icons/email.png') }}" alt="Email" width="32px">
+                    <img src="{{ asset('icons/email.png') }}" alt="Email">
                     <span>upabahasa@pnc.ac.id</span>
                 </div>
                 <div class="contact-item">
-                    <img src="{{ asset('icons/whatsapp.png') }}" alt="WhatsApp" width="32">
+                    <img src="{{ asset('icons/whatsapp.png') }}" alt="WhatsApp">
                     <span>+62 812 3456 7890</span>
                 </div>
                 <div class="contact-item">
-                    <img src="{{ asset('icons/waktu.png') }}" alt="Waktu" width="32">
+                    <img src="{{ asset('icons/waktu.png') }}" alt="Waktu">
                     <span>Senin - Jum'at, 08:00 - 16:00 WIB</span>
                 </div>
             </div>

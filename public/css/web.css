@@ -11,6 +11,8 @@
 
     --color-text: #555555;
     --bg-color-1: #F8F4FF;
+    --bg-color-2: #9683EC29;
+    --bg-color-3: #FAFAFA;
 }
 
 body {
@@ -238,7 +240,7 @@ body {
 
 /* Program Tes Cards */
 .programtes-section {
-    background-color: var(--bg-color-1);
+    background-color: var(--bg-color-3);
     padding: 5rem 0;
 }
 
@@ -365,7 +367,7 @@ body {
 
 /* Cara Mendaftar */
 .caradaftar-section {
-    background-color: #9683EC29;
+    background-color: var(--bg-color-2);
     padding: 5rem 0;
 }
 
@@ -497,11 +499,12 @@ footer {
     margin-bottom: 1rem;
     color: var(--color-grey);
     font-size: 0.9rem;
+    align-items: center;
 }
 
 .contact-item img {
-    width: 20px;
-    height: 20px;
+    /* width: 16px; */
+    height: 16px;
     /* filter: brightness(0) invert(1); */
 }
 
@@ -525,6 +528,126 @@ footer {
     .footer-content { text-align: center; }
     .footer-brand, .footer-socials { justify-content: center; }
     .contact-item { justify-content: center; }
+}
+
+/* Dokumentasi Section */
+.img-dokumentasi {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* Tentang Page Specific Styles */
+.tentang-header-section {
+    padding: 5rem 0;
+    background-color: var(--bg-color-2);
+}
+
+.tentang-header-section .section-title {
+    text-align: center;
+    /* margin-bottom: 4rem; */
+}
+
+.tentang-content-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+.img-tentang-header {
+    max-width: 100%;
+    max-height: 319px;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.program-card-custom {
+    background: var(--color-white);
+    border: 1px solid rgba(0,0,0,0.05);
+    /* border-right: 5px solid var(--color-primary); */
+    border-left: 5px solid var(--color-primary);
+    border-radius: 20px;
+    padding: 2.5rem;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.program-card-custom h3 {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.program-card-custom p {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+}
+
+.badge-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.badge-info {
+    background-color: #F0E8FF;
+    color: var(--color-primary);
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge-info img {
+    /* width: 16px; */
+    height: 16px;
+}
+
+.struktur-card {
+    background: var(--color-white);
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-top: 5px solid var(--color-primary);
+    /* border: 1px solid rgba(0,0,0,0.02); */
+}
+
+.struktur-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.struktur-icon img {
+    width: 60px;
+    height: 60px;
+    /* filter: brightness(0) invert(1); */
+}
+
+.struktur-card h4 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.struktur-card p {
+    font-size: 0.85rem;
+    color: var(--color-text);
+    margin: 0;
 }
 
 /* Auth Pages */

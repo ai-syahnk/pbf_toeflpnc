@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('contents.web.beranda');
 });
 
+Route::get('/tentang', function () {
+    return view('contents.web.tentang');
+})->name('tentang');
+
 // Auth Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
