@@ -37,7 +37,7 @@
                     <div class="card border-0 shadow-sm p-4" style="border-radius: 24px;">
                         <div class="card-body p-2">
                             <h5 class="fw-bold text-purple mb-4">Data Diri Pendaftar</h5>
-                            <form action="{{ route('pendaftaran.step1') }}" method="POST">
+                            <form action="{{ route('pendaftaran.step2') }}" method="GET">
                                 @csrf
                                 <!-- Nama Lengkap -->
                                 <div class="mb-4">
