@@ -54,6 +54,10 @@ Route::middleware('auth')->group(function () {
     })->name('transaksi.detail');
 
     Route::get('/transaksi/kartu-tes', function () {
-        return view('contents.pendaftar.kartu_tes.show');
+        return view('contents.pendaftar.kartu-tes.show');
     })->name('transaksi.kartu-tes');
+
+    Route::get('/pendaftaran/step-1', function () {
+        return view('contents.pendaftar.pendaftaran.step1-data-diri');
+    })->name('pendaftaran.step1');
 });

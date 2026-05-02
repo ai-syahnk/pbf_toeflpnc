@@ -82,7 +82,7 @@
                                     <span class="text-description">: 24 Peserta</span>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-daftar">Daftar Sekarang</a>
+                            <a href="{{ route('pendaftaran.step1') }}" class="btn btn-daftar">Daftar Sekarang</a>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                                     <span class="text-description">: 32 Peserta</span>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-daftar">Daftar Sekarang</a>
+                            <a href="{{ route('pendaftaran.step1') }}" class="btn btn-daftar">Daftar Sekarang</a>
                         </div>
                     </div>
                 </div>
