@@ -64,4 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pendaftaran/step-2', function () {
         return view('contents.pendaftar.pendaftaran.step2-konfirmasi');
     })->name('pendaftaran.step2');
+
+    Route::get('/pendaftaran/step-3', function () {
+        return view('contents.pendaftar.pendaftaran.step3-pembayaran');
+    })->name('pendaftaran.step3');
 });

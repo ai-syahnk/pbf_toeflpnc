@@ -202,7 +202,7 @@
                                         style="border-radius: 50px; font-weight: 700;">Ubah Data</a>
                                 </div>
                                 <div class="col-7">
-                                    <a href="#" class="btn btn-auth w-100 py-2 m-0"
+                                    <a href="{{ route('pendaftaran.step3') }}" class="btn btn-auth w-100 py-2 m-0"
                                         style="border-radius: 50px; font-weight: 700;">Lanjut ke Pembayaran</a>
                                 </div>
                             </div>
