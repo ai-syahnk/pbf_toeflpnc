@@ -768,6 +768,7 @@ footer {
 
 .btn-auth:hover {
     background-color: var(--color-dark-purple);
+    color: var(--color-white);
     transform: translateY(-2px);
 }
 

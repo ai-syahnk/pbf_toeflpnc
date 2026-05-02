@@ -199,8 +199,9 @@
                                         <input class="form-check-input custom-checkbox" type="checkbox" id="agree"
                                             required>
                                         <label class="form-check-label ms-2" for="agree">
-                                            Saya menyetujui <a href="#"
-                                                class="text-purple fw-bold text-decoration-none">Syarat & Ketentuan</a>
+                                            Saya menyetujui <a href="javascript:void(0)"
+                                                class="text-purple fw-bold text-decoration-none" data-bs-toggle="modal"
+                                                data-bs-target="#termsModal">Syarat & Ketentuan</a>
                                         </label>
                                     </div>
                                 </div>
@@ -216,6 +217,32 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal Syarat & Ketentuan -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 p-3" style="border-radius: 24px;">
+                <div class="modal-body p-4">
+                    <h5 class="fw-bold text-purple mb-4" id="termsModalLabel">Syarat & Ketentuan</h5>
+                    <div class="terms-content mb-4" style="font-size: 0.85rem; color: #333; line-height: 1.6;">
+                        <ol class="ps-3">
+                            <li class="mb-2">Peserta wajib membawa kartu tes yang telah dicetak saat pelaksanaan ujian.
+                            </li>
+                            <li class="mb-2">Peserta wajib hadir 30 menit sebelum tes dimulai. Keterlambatan dapat
+                                menyebabkan peserta tidak diperbolehkan mengikuti tes.</li>
+                            <li class="mb-2">Peserta wajib membawa identitas diri yang berlaku (KTP/KTM).</li>
+                            <li class="mb-2">Pembayaran tidak dapat dilakukan setelah tanggal 25 setiap bulan.</li>
+                            <li class="mb-2">Biaya pendaftaran yang telah dibayarkan tidak dapat dikembalikan.</li>
+                            <li class="mb-2">Peserta yang berhalangan hadir tidak dapat memindahkan jadwal tes tanpa
+                                konfirmasi kepada admin TOEFL sebelum hari H.</li>
+                        </ol>
+                    </div>
+                    <button type="button" class="btn btn-auth w-100 py-2" data-bs-dismiss="modal"
+                        style="border-radius: 50px; font-weight: 600;">Saya Mengerti</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @push('styles')
         <style>
