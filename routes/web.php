@@ -38,22 +38,22 @@ Route::middleware('auth')->group(function () {
     })->name('beranda');
 
     Route::get('/profil', function () {
-        return view('contents.mahasiswa.profil.index');
+        return view('contents.pendaftar.profil.index');
     })->name('profil');
 
     Route::get('/profil/edit', function () {
-        return view('contents.mahasiswa.profil.edit');
+        return view('contents.pendaftar.profil.edit');
     })->name('profil.edit');
 
     Route::get('/transaksi/riwayat', function () {
-        return view('contents.mahasiswa.transaksi.riwayat');
+        return view('contents.pendaftar.transaksi.riwayat');
     })->name('transaksi.riwayat');
 
     Route::get('/transaksi/detail', function () {
-        return view('contents.mahasiswa.transaksi.detail');
+        return view('contents.pendaftar.transaksi.detail');
     })->name('transaksi.detail');
 
     Route::get('/transaksi/kartu-tes', function () {
-        return view('contents.mahasiswa.kartu_tes.show');
+        return view('contents.pendaftar.kartu_tes.show');
     })->name('transaksi.kartu-tes');
 });
