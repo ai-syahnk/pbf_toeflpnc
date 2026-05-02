@@ -102,14 +102,39 @@
                                 style="border-radius: 50px; font-weight: 700;">Kembali</a>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-5">
-                            <a href="#" class="btn btn-auth w-100 py-2 m-0"
-                                style="border-radius: 50px; font-weight: 700;">Saya Sudah Bayar</a>
+                            <button type="button" class="btn btn-auth w-100 py-2 m-0"
+                                style="border-radius: 50px; font-weight: 700;" data-bs-toggle="modal"
+                                data-bs-target="#successModal">Saya Sudah Bayar</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Modal Sukses Pendaftaran -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 p-3" style="border-radius: 30px;">
+                <div class="modal-body text-center p-4">
+                    <div class="success-icon-wrapper mb-5">
+                        <div class="success-circle mx-auto">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-purple mb-3">Selamat Pendaftaran Berhasil!</h4>
+                    <p class="text-muted mb-3" style="font-size: 1rem; line-height: 1.2;">
+                        Anda telah berhasil mendaftar Tes TOEFL.<br>
+                        Silakan unduh kartu tes dan bawa saat<br>
+                        hari pelaksanaan tes.
+                    </p>
+                    <a href="{{ route('transaksi.kartu-tes') }}" class="btn btn-auth w-100 py-2"
+                        style="border-radius: 50px; font-weight: 700; font-size: 1rem;">Lihat Kartu Tes</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @push('styles')
         <style>
@@ -185,6 +210,19 @@
             .btn-outline-purple:hover {
                 background-color: var(--color-primary);
                 color: white;
+            }
+
+            /* Success Modal Styling */
+            .success-circle {
+                width: 120px;
+                height: 120px;
+                background-color: #f0e8ff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--color-primary);
+                font-size: 3.5rem;
             }
         </style>
     @endpush
