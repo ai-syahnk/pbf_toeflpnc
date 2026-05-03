@@ -16,6 +16,11 @@
     </ul>
 
     <div class="logout-container border-top">
-        <a href="#" class="logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Log out</a>
+        <form action="{{ route('admin.logout') }}" method="POST" class="w-100">
+            @csrf
+            <button type="submit" class="logout-btn w-100 text-start border-0 bg-transparent">
+                <i class="fas fa-sign-out-alt me-2"></i> Log out
+            </button>
+        </form>
     </div>
 </nav>

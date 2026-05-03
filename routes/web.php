@@ -71,7 +71,9 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::post('/logout', [LoginController::class, 'destroyAdmin'])->name('logout');
+
     Route::get('/dashboard', function () {
         return view('contents.admin.dashboard');
     })->name('dashboard');

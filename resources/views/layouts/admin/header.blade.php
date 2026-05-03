@@ -14,16 +14,25 @@
         </div>
         <div class="ms-auto d-flex align-items-center">
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="bg-light rounded-circle p-2 border me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark"
+                    id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="bg-light rounded-circle p-2 border me-2"
+                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-user text-muted"></i>
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="dropdownUser">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form action="{{ route('admin.logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger">Logout</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
