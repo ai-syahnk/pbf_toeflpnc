@@ -12,31 +12,31 @@
                 <div class="card-body p-4">
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold">Judul Tes</div>
-                        <div class="col-md-9">: Free For Alumni – EPT–P</div>
+                        <div class="col-md-9">: {{ $jadwalTes->judul_tes }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold">Jenis Tes</div>
-                        <div class="col-md-9">: TOEFL EPT-P</div>
+                        <div class="col-md-9">: {{ $jadwalTes->jenis_tes }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold">Tanggal Tes</div>
-                        <div class="col-md-9">: 6 Maret 2026</div>
+                        <div class="col-md-9">: {{ $jadwalTes->tanggal_tes->format('d M Y') }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold">Waktu</div>
-                        <div class="col-md-9">: 09:00 – 11:00</div>
+                        <div class="col-md-9">: {{ $jadwalTes->waktu }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold">Lokasi</div>
-                        <div class="col-md-9">: Lab. Bahasa GKB Lantai 2</div>
+                        <div class="col-md-9">: {{ $jadwalTes->lokasi }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-3 fw-bold">Kouta</div>
-                        <div class="col-md-9">: 24</div>
+                        <div class="col-md-3 fw-bold">Kuota</div>
+                        <div class="col-md-9">: {{ $jadwalTes->kuota }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold">Harga</div>
-                        <div class="col-md-9">: Rp 0</div>
+                        <div class="col-md-9">: Rp {{ number_format((float) $jadwalTes->harga, 0, ',', '.') }}</div>
                     </div>
                 </div>
             </div>

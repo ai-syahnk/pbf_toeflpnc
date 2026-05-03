@@ -54,7 +54,8 @@
                                 <td class="text-center">{{ $item->kuota }}</td>
                                 <td>Rp {{ number_format((float) $item->harga, 0, ',', '.') }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.jadwal-tes.show') }}" class="btn btn-detail px-4">DETAIL</a>
+                                    <a href="{{ route('admin.jadwal-tes.show', $item->id) }}"
+                                        class="btn btn-detail px-4">DETAIL</a>
                                 </td>
                             </tr>
                         @empty

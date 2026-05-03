@@ -25,6 +25,11 @@ class JadwalTesController extends Controller
         return view('contents.admin.jadwal-tes.create');
     }
 
+    public function show(JadwalTes $jadwalTes): View
+    {
+        return view('contents.admin.jadwal-tes.show', compact('jadwalTes'));
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([

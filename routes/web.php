@@ -81,10 +81,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/jadwal-tes', [JadwalTesController::class, 'index'])->name('jadwal-tes');
 
-    Route::get('/jadwal-tes/show', function () {
-        return view('contents.admin.jadwal-tes.show');
-    })->name('jadwal-tes.show');
+    Route::get('/jadwal-tes/{jadwalTes}', [JadwalTesController::class, 'show'])->name('jadwal-tes.show');
 
     Route::get('/jadwal-tes/create', [JadwalTesController::class, 'create'])->name('jadwal-tes.create');
     Route::post('/jadwal-tes', [JadwalTesController::class, 'store'])->name('jadwal-tes.store');
-    });
+});
