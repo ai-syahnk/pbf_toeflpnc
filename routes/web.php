@@ -90,4 +90,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/peserta', [PesertaController::class, 'index'])->name('peserta');
     Route::get('/peserta/{id}', [PesertaController::class, 'show'])->name('peserta.show');
+    Route::get('/peserta/{id}/score', [PesertaController::class, 'editScore'])->name('peserta.score');
 });

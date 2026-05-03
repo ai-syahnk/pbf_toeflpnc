@@ -71,4 +71,15 @@ class PesertaController extends Controller
 
         return view('contents.admin.peserta.show', compact('peserta'));
     }
+
+    public function editScore($id)
+    {
+        $peserta = (object) [
+            'id' => $id,
+            'nomor_pendaftaran' => 'TOEFL-101-260226-013',
+            'nama_peserta' => 'Aika Eva Darlene',
+        ];
+
+        return view('contents.admin.peserta.score', compact('peserta'));
+    }
 }
