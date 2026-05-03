@@ -38,7 +38,7 @@
                             <td class="text-center">24</td>
                             <td>Rp 0</td>
                             <td class="text-center">
-                                <button class="btn btn-detail px-4">DETAIL</button>
+                                <a href="{{ route('admin.jadwal-tes.show') }}" class="btn btn-detail px-4">DETAIL</a>
                             </td>
                         </tr>
                     </tbody>

@@ -167,6 +167,31 @@ body {
     padding: 12px 12px;
 }
 
+/* Card Custom Style */
+.card-custom {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-custom .card-custom-header {
+    background-color: #9683ec29;
+    border-bottom: 2px solid #f7b801;
+    padding: 0.75rem 1rem;
+}
+
+.card-custom .card-custom-header .card-custom-title {
+    font-weight: 700;
+    margin-bottom: 0;
+    color: #6d28d9;
+    font-size: 1.25rem;
+}
+
+.card-custom .card-body {
+    padding: 1.5rem;
+}
+
 @media (max-width: 991.98px) {
     #sidebar {
         left: calc(-1 * var(--sidebar-width));
@@ -176,8 +201,5 @@ body {
     }
     #content {
         margin-left: 0;
-    }
-    #content.active {
-        /* Optional: prevent content from shifting if needed, but 0 is correct for mobile */
     }
 }

@@ -81,4 +81,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/jadwal-tes', function () {
         return view('contents.admin.jadwal-tes.index');
     })->name('jadwal-tes');
-});
+
+    Route::get('/jadwal-tes/show', function () {
+        return view('contents.admin.jadwal-tes.show');
+    })->name('jadwal-tes.show');
+    });
