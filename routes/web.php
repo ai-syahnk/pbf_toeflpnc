@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\JadwalTesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -78,15 +79,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         return view('contents.admin.dashboard');
     })->name('dashboard');
 
-    Route::get('/jadwal-tes', function () {
-        return view('contents.admin.jadwal-tes.index');
-    })->name('jadwal-tes');
+    Route::get('/jadwal-tes', [JadwalTesController::class, 'index'])->name('jadwal-tes');
 
     Route::get('/jadwal-tes/show', function () {
         return view('contents.admin.jadwal-tes.show');
     })->name('jadwal-tes.show');
 
-    Route::get('/jadwal-tes/create', function () {
-        return view('contents.admin.jadwal-tes.create');
-    })->name('jadwal-tes.create');
+    Route::get('/jadwal-tes/create', [JadwalTesController::class, 'create'])->name('jadwal-tes.create');
+    Route::post('/jadwal-tes', [JadwalTesController::class, 'store'])->name('jadwal-tes.store');
     });
