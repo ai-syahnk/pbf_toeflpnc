@@ -30,9 +30,66 @@ class JadwalTesController extends Controller
         return view('contents.admin.jadwal-tes.show', compact('jadwalTes'));
     }
 
+    public function edit(JadwalTes $jadwalTes): View
+    {
+        return view('contents.admin.jadwal-tes.edit', compact('jadwalTes'));
+    }
+
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+        $validated = $request->validate($this->rules(), $this->messages());
+
+        try {
+            JadwalTes::create($validated);
+        } catch (Throwable) {
+            return back()
+                ->withInput()
+                ->with('error', 'Data jadwal gagal disimpan. Silakan coba lagi.');
+        }
+
+        return redirect()
+            ->route('admin.jadwal-tes')
+            ->with('success', 'Data jadwal tes berhasil ditambahkan.');
+    }
+
+    public function update(Request $request, JadwalTes $jadwalTes): RedirectResponse
+    {
+        $validated = $request->validate($this->rules(), $this->messages());
+
+        try {
+            $jadwalTes->update($validated);
+        } catch (Throwable) {
+            return back()
+                ->withInput()
+                ->with('error', 'Data jadwal gagal diperbarui. Silakan coba lagi.');
+        }
+
+        return redirect()
+            ->route('admin.jadwal-tes.show', $jadwalTes->id)
+            ->with('success', 'Data jadwal tes berhasil diperbarui.');
+    }
+
+    public function destroy(JadwalTes $jadwalTes): RedirectResponse
+    {
+        try {
+            JadwalTes::destroy($jadwalTes->id);
+        } catch (Throwable) {
+            return redirect()
+                ->route('admin.jadwal-tes')
+                ->with('error', 'Data jadwal gagal dihapus. Silakan coba lagi.');
+        }
+
+        return redirect()
+            ->route('admin.jadwal-tes')
+            ->with('success', 'Data jadwal tes berhasil dihapus.');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function rules(): array
+    {
+        return [
             'judul_tes' => ['required', 'string', 'max:255'],
             'jenis_tes' => ['required', 'in:EPT-P,ITP'],
             'tanggal_tes' => ['required', 'date'],
@@ -40,7 +97,15 @@ class JadwalTesController extends Controller
             'lokasi' => ['required', 'string', 'max:255'],
             'kuota' => ['required', 'integer', 'min:1'],
             'harga' => ['required', 'numeric', 'min:0'],
-        ], [
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function messages(): array
+    {
+        return [
             'judul_tes.required' => 'Judul tes harus diisi.',
             'judul_tes.max' => 'Judul tes maksimal 255 karakter.',
             'jenis_tes.required' => 'Jenis tes harus dipilih.',
@@ -57,18 +122,6 @@ class JadwalTesController extends Controller
             'harga.required' => 'Harga harus diisi.',
             'harga.numeric' => 'Harga harus berupa angka.',
             'harga.min' => 'Harga tidak boleh kurang dari 0.',
-        ]);
-
-        try {
-            JadwalTes::create($validated);
-        } catch (Throwable) {
-            return back()
-                ->withInput()
-                ->with('error', 'Data jadwal gagal disimpan. Silakan coba lagi.');
-        }
-
-        return redirect()
-            ->route('admin.jadwal-tes')
-            ->with('success', 'Data jadwal tes berhasil ditambahkan.');
+        ];
     }
 }

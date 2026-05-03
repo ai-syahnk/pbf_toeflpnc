@@ -3,6 +3,20 @@
 @section('title', 'Detail Jadwal Tes')
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
             <div class="card card-custom">
@@ -46,13 +60,24 @@
     <div class="row mt-4">
         <div class="col-12">
             <div class="d-flex gap-3">
-                <button class="btn btn-sm text-white px-5 py-2 fw-bold"
-                    style="background-color: #6D28D9; border-radius: 25px;">
+                <a href="{{ route('admin.jadwal-tes') }}" class="btn btn-sm btn-outline-secondary px-4 py-2 fw-bold"
+                    style="border-radius: 25px;">
+                    Kembali ke Daftar
+                </a>
+
+                <a href="{{ route('admin.jadwal-tes.edit', $jadwalTes->id) }}"
+                    class="btn btn-sm text-white px-5 py-2 fw-bold" style="background-color: #6D28D9; border-radius: 25px;">
                     Edit
-                </button>
-                <button class="btn btn-sm btn-danger px-5 py-2 fw-bold" style="border-radius: 25px;">
-                    Hapus
-                </button>
+                </a>
+
+                <form action="{{ route('admin.jadwal-tes.destroy', $jadwalTes->id) }}" method="POST"
+                    onsubmit="return confirm('Yakin ingin menghapus jadwal tes ini?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger px-5 py-2 fw-bold" style="border-radius: 25px;">
+                        Hapus
+                    </button>
+                </form>
             </div>
         </div>
     </div>
