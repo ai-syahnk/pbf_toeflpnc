@@ -11,7 +11,7 @@
             <a href="{{ route('admin.jadwal-tes') }}"><i class="fas fa-calendar-alt"></i> Jadwal Tes</a>
         </li>
         <li class="{{ request()->is('admin/peserta*') ? 'active' : '' }}">
-            <a href="#"><i class="fas fa-user"></i> Peserta Tes</a>
+            <a href="{{ route('admin.peserta') }}"><i class="fas fa-user"></i> Peserta Tes</a>
         </li>
     </ul>
 

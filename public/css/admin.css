@@ -1,5 +1,5 @@
 :root {
-    --primary-purple: #6d28d9;
+    --primary-purple: #5D16A6;
     --sidebar-bg: #e1d6ed;
     --content-bg: #f8f9fa;
     --header-height: 65px;
@@ -137,6 +137,7 @@ body {
     color: #065f46;
     border-radius: 20px;
     padding: 5px 15px;
+    font-weight: 600;
 }
 
 .btn-detail {
@@ -147,11 +148,54 @@ body {
     padding: 5px 16px;
     font-weight: 600;
     font-size: 0.875em;
+    text-decoration: none;
 }
 
 .btn-detail:hover {
     background-color: #d6e0ff;
     color: #1e40af;
+}
+
+.btn-score {
+    background-color: #ffedd5;
+    color: #9a3412;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-weight: 600;
+    font-size: 0.875em;
+    text-decoration: none;
+}
+
+.btn-score:hover {
+    background-color: #fed7aa;
+    color: #9a3412;
+}
+
+.search-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.search-container i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+.search-input {
+    padding-left: 50px !important;
+    border-radius: 30px !important;
+    border: 1px solid #d1d5db !important;
+    height: 50px;
+    font-size: 0.95rem;
+}
+
+.search-input:focus {
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1) !important;
+    border-color: var(--primary-purple) !important;
 }
 
 .logout-container {

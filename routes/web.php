@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\JadwalTesController;
+use App\Http\Controllers\PesertaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -86,4 +87,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/jadwal-tes/{jadwalTes}', [JadwalTesController::class, 'update'])->name('jadwal-tes.update');
     Route::delete('/jadwal-tes/{jadwalTes}', [JadwalTesController::class, 'destroy'])->name('jadwal-tes.destroy');
     Route::get('/jadwal-tes/{jadwalTes}', [JadwalTesController::class, 'show'])->name('jadwal-tes.show');
+
+    Route::get('/peserta', [PesertaController::class, 'index'])->name('peserta');
 });
