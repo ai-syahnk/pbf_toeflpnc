@@ -5,9 +5,9 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">Daftar Jadwal Tes</h5>
-        <button class="btn btn-sm text-white px-4 py-2 fw-bold" style="background-color: #6D28D9; border-radius: 25px;">
+        <a href="{{ route('admin.jadwal-tes.create') }}" class="btn btn-sm text-white px-4 py-2 fw-bold" style="background-color: #6D28D9; border-radius: 25px;">
             <i class="fas fa-plus me-2"></i> Tambah Jadwal
-        </button>
+        </a>
     </div>
 
     <div class="row">
