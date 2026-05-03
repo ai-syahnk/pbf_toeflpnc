@@ -39,7 +39,7 @@
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="#" class="btn-score">INPUT SKOR</a>
-                                        <a href="#" class="btn-detail">DETAIL</a>
+                                        <a href="{{ route('admin.peserta.show', $item->id) }}" class="btn-detail">DETAIL</a>
                                     </div>
                                 </td>
                             </tr>
