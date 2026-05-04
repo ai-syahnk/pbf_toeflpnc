@@ -48,7 +48,7 @@
                                 <td class="px-4 text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $item->judul_tes }}</td>
                                 <td>{{ $item->jenis_tes }}</td>
-                                <td>{{ $item->tanggal_tes->format('d M Y') }}</td>
+                                <td>{{ tanggal_panjang($item->tanggal_tes) }}</td>
                                 <td>{{ $item->waktu }}</td>
                                 <td>{{ $item->lokasi }}</td>
                                 <td class="text-center">{{ $item->kuota }}</td>
