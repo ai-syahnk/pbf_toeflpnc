@@ -10,6 +10,16 @@ use Throwable;
 
 class JadwalTesController extends Controller
 {
+    public function publicIndex(): View
+    {
+        $jadwalTes = JadwalTes::query()
+            ->orderBy('tanggal_tes', 'asc')
+            ->orderBy('waktu', 'asc')
+            ->get();
+
+        return view('contents.web.jadwal', compact('jadwalTes'));
+    }
+
     public function index(): View
     {
         $jadwalTes = JadwalTes::query()

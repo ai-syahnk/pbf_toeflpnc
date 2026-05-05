@@ -4,19 +4,24 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\JadwalTesController;
 use App\Http\Controllers\PesertaController;
+use App\Models\JadwalTes;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('contents.web.beranda');
+    $jadwalTes = JadwalTes::query()
+        ->orderBy('tanggal_tes', 'asc')
+        ->orderBy('waktu', 'asc')
+        ->limit(2)
+        ->get();
+
+    return view('contents.web.beranda', compact('jadwalTes'));
 });
 
 Route::get('/tentang', function () {
     return view('contents.web.tentang');
 })->name('tentang');
 
-Route::get('/jadwal-tes', function () {
-    return view('contents.web.jadwal');
-})->name('jadwal');
+Route::get('/jadwal-tes', [JadwalTesController::class, 'publicIndex'])->name('jadwal');
 
 Route::get('/hasil-tes', function () {
     return view('contents.web.hasiltes');
@@ -36,7 +41,13 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('logout')->mid
 // Protected Routes (Dashboard)
 Route::middleware('auth')->group(function () {
     Route::get('/beranda', function () {
-        return view('contents.web.beranda');
+        $jadwalTes = JadwalTes::query()
+            ->orderBy('tanggal_tes', 'asc')
+            ->orderBy('waktu', 'asc')
+            ->limit(2)
+            ->get();
+
+        return view('contents.web.beranda', compact('jadwalTes'));
     })->name('beranda');
 
     Route::get('/profil', function () {

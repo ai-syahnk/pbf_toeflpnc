@@ -8,7 +8,7 @@
                 <div class="col-lg-10">
                     <h1>Sistem Pendaftaran TOEFL<br>Politeknik Negeri Cilacap</h1>
                     <p>Layanan resmi pengukuran kemampuan bahasa Inggris mahasiswa.</p>
-                    <a href="#" class="btn-lihat-jadwal">
+                    <a href="{{ route('jadwal') }}" class="btn-lihat-jadwal">
                         Lihat Jadwal <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -52,76 +52,59 @@
                 <h2>Jadwal Tes</h2>
             </div>
             <div class="row g-4 justify-content-center">
-                <div class="col-lg-5 col-md-6">
-                    <div class="jadwal-card">
-                        <div class="jadwal-card-header">Free For Alumni - EPT-P</div>
-                        <div class="jadwal-card-body">
-                            <div class="jadwal-price">
-                                <span class="old-price">Rp 100.000</span>
-                                <span class="new-price">GRATIS</span>
+                @forelse ($jadwalTes as $item)
+                    <div class="col-lg-5 col-md-6">
+                        <div class="jadwal-card">
+                            <div class="jadwal-card-header">{{ $item->judul_tes }} - {{ $item->jenis_tes }}</div>
+                            <div class="jadwal-card-body">
+                                <div class="jadwal-price">
+                                    @if ((float) $item->harga <= 0)
+                                        <span class="old-price">Rp 100.000</span>
+                                        <span class="new-price">GRATIS</span>
+                                    @else
+                                        <span class="new-price">Rp
+                                            {{ number_format((float) $item->harga, 0, ',', '.') }}</span>
+                                    @endif
+                                </div>
+                                <div class="jadwal-info">
+                                    <div class="jadwal-item">
+                                        <span class="label"><img src="{{ asset('icons/date.png') }}" width="18">
+                                            Tanggal</span>
+                                        <span class="text-description">: {{ tanggal_panjang($item->tanggal_tes) }}</span>
+                                    </div>
+                                    <div class="jadwal-item">
+                                        <span class="label"><img src="{{ asset('icons/time.png') }}" width="18">
+                                            Waktu</span>
+                                        <span class="text-description">: {{ $item->waktu }}</span>
+                                    </div>
+                                    <div class="jadwal-item">
+                                        <span class="label"><img src="{{ asset('icons/location.png') }}" width="18">
+                                            Lokasi</span>
+                                        <span class="text-description">: {{ $item->lokasi }}</span>
+                                    </div>
+                                    <div class="jadwal-item">
+                                        <span class="label"><img src="{{ asset('icons/quota.png') }}" width="18">
+                                            Kuota</span>
+                                        <span class="text-description">: {{ $item->kuota }} Peserta</span>
+                                    </div>
+                                </div>
+                                <a href="{{ auth()->check() ? route('pendaftaran.step1') : route('login') }}"
+                                    class="btn btn-daftar">
+                                    Daftar Sekarang
+                                </a>
                             </div>
-                            <div class="jadwal-info">
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/date.png') }}" width="18">
-                                        Tanggal</span>
-                                    <span class="text-description">: 6 Maret 2026</span>
-                                </div>
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/time.png') }}" width="18">
-                                        Waktu</span>
-                                    <span class="text-description">: (Sesi Pagi) 09:00 - 11:00 WIB</span>
-                                </div>
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/location.png') }}" width="18">
-                                        Lokasi</span>
-                                    <span class="text-description">: Lab. Bahasa GKB Lantai 2</span>
-                                </div>
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/quota.png') }}" width="18">
-                                        Kuota</span>
-                                    <span class="text-description">: 24 Peserta</span>
-                                </div>
-                            </div>
-                            <a href="{{ route('pendaftaran.step1') }}" class="btn btn-daftar">Daftar Sekarang</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5 col-md-6">
-                    <div class="jadwal-card">
-                        <div class="jadwal-card-header">Special Ramadhan Batch 1 - EPT-P</div>
-                        <div class="jadwal-card-body">
-                            <div class="jadwal-price">
-                                <span class="new-price">Rp 100.000</span>
-                            </div>
-                            <div class="jadwal-info">
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/date.png') }}" width="18">
-                                        Tanggal</span>
-                                    <span class="text-description">: 9 Maret 2026</span>
-                                </div>
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/time.png') }}" width="18">
-                                        Waktu</span>
-                                    <span class="text-description">: (Sesi Pagi) 09:00 - 11:00 WIB</span>
-                                </div>
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/location.png') }}" width="18">
-                                        Lokasi</span>
-                                    <span class="text-description">: Lab. Bahasa GKB Lantai 2</span>
-                                </div>
-                                <div class="jadwal-item">
-                                    <span class="label"><img src="{{ asset('icons/quota.png') }}" width="18">
-                                        Kuota</span>
-                                    <span class="text-description">: 32 Peserta</span>
-                                </div>
-                            </div>
-                            <a href="{{ route('pendaftaran.step1') }}" class="btn btn-daftar">Daftar Sekarang</a>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-light border text-center mb-0" role="alert">
+                            Jadwal tes belum tersedia. Silakan cek kembali nanti.
                         </div>
                     </div>
-                </div>
+                @endforelse
             </div>
             <div class="text-center mt-4">
-                <a href="#" class="lihat-semua-link">Lihat Semua</a>
+                <a href="{{ route('jadwal') }}" class="lihat-semua-link">Lihat Semua</a>
             </div>
         </div>
     </section>
