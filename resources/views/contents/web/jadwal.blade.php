@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-auto pt-4 text-center">
-                                    <a href="{{ auth()->check() ? route('pendaftaran.step1') : route('login') }}"
+                                    <a href="{{ auth()->check() ? route('pendaftaran.mulai', $item) : route('login') }}"
                                         class="btn btn-daftar w-100">
                                         Daftar Sekarang
                                     </a>

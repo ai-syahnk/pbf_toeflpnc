@@ -88,7 +88,7 @@
                                         <span class="text-description">: {{ $item->kuota }} Peserta</span>
                                     </div>
                                 </div>
-                                <a href="{{ auth()->check() ? route('pendaftaran.step1') : route('login') }}"
+                                <a href="{{ auth()->check() ? route('pendaftaran.mulai', $item) : route('login') }}"
                                     class="btn btn-daftar">
                                     Daftar Sekarang
                                 </a>

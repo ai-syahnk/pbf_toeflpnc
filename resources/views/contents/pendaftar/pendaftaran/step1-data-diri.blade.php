@@ -3,9 +3,8 @@
 @section('content')
     <section class="pendaftaran-section py-5" style="background-color: #f8f4ff; min-height: 80vh;">
         <div class="container">
-            <!-- Progress Bar -->
-            <div class="row justify-content-center mb-5">
-                <div class="col-lg-8">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
                     <div class="d-flex justify-content-between position-relative registration-steps">
                         <div class="step-line"></div>
                         <div class="step-item active">
@@ -19,196 +18,210 @@
                             <div class="reg-step-icon-wrapper">
                                 <img src="{{ asset('icons/pesanan.png') }}" alt="Konfirmasi Pesanan" class="reg-step-icon">
                             </div>
-                            <div class="step-label">Konfirmasi Pesanan</div>
+                            <div style="color: #999999;">Konfirmasi Pesanan</div>
                         </div>
                         <div class="step-item">
                             <div class="reg-step-icon-wrapper">
                                 <img src="{{ asset('icons/walet.png') }}" alt="Pembayaran" class="reg-step-icon">
                             </div>
-                            <div class="step-label">Pembayaran</div>
+                            <div style="color: #999999;">Pembayaran</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Form Card -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-sm" style="border-radius: 20px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-lg-center">
+                                <div>
+                                    <div class="text-muted small text-uppercase">Jadwal Dipilih</div>
+                                    <h4 class="mb-2 text-purple fw-bold">
+                                        {{ $pendaftaranTes->jadwalTes->judul_tes }} -
+                                        {{ $pendaftaranTes->jadwalTes->jenis_tes }}
+                                    </h4>
+                                    <div class="text-muted small">
+                                        {{ tanggal_panjang($pendaftaranTes->jadwalTes->tanggal_tes) }}
+                                        | {{ $pendaftaranTes->jadwalTes->waktu }}
+                                        | {{ $pendaftaranTes->jadwalTes->lokasi }}
+                                    </div>
+                                </div>
+                                <div class="text-lg-end">
+                                    <div class="text-muted small text-uppercase">Biaya Tes</div>
+                                    <div class="fw-bold text-purple fs-4">
+                                        @if ((float) $pendaftaranTes->jadwalTes->harga <= 0)
+                                            GRATIS
+                                        @else
+                                            Rp {{ number_format((float) $pendaftaranTes->jadwalTes->harga, 0, ',', '.') }}
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm p-4" style="border-radius: 24px;">
-                        <div class="card-body p-2">
-                            <h5 class="fw-bold text-purple mb-4">Data Diri Pendaftar</h5>
-                            <form action="{{ route('pendaftaran.step2') }}" method="GET">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-sm" style="border-radius: 20px;">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold text-purple mb-0">Data Diri Pendaftar</h5>
+                                @if ($pendaftaranTes->nomor_pendaftaran)
+                                    <span
+                                        class="badge bg-light text-dark border">{{ $pendaftaranTes->nomor_pendaftaran }}</span>
+                                @endif
+                            </div>
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0 ps-3">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('pendaftaran.step1.store', $pendaftaranTes) }}" method="POST">
                                 @csrf
-                                <!-- Nama Lengkap -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-medium">Nama Lengkap <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-custom" name="nama" required>
-                                </div>
 
-                                <!-- Jenis Kelamin -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-medium d-block">Jenis Kelamin <span
-                                            class="text-danger">*</span></label>
-                                    <div class="form-check form-check-inline me-4">
-                                        <input class="form-check-input custom-radio" type="radio" name="jenis_kelamin"
-                                            id="laki" value="Laki-laki" required>
-                                        <label class="form-check-label" for="laki">Laki-laki</label>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Nama Lengkap</label>
+                                        <input type="text" class="form-control form-control-custom" name="nama_peserta"
+                                            value="{{ old('nama_peserta', $pendaftaranTes->nama_peserta) }}" required>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input custom-radio" type="radio" name="jenis_kelamin"
-                                            id="perempuan" value="Perempuan" required>
-                                        <label class="form-check-label" for="perempuan">Perempuan</label>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Email</label>
+                                        <input type="email" class="form-control form-control-custom" name="email_peserta"
+                                            value="{{ old('email_peserta', $pendaftaranTes->email_peserta) }}" required>
                                     </div>
-                                </div>
 
-                                <!-- Status -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-medium">Status <span class="text-danger">*</span></label>
-                                    <div class="select-wrapper position-relative">
-                                        <select class="form-select form-control-custom" name="status" id="statusSelect"
-                                            required>
-                                            <option value="" disabled selected>Pilih Status</option>
-                                            <option value="mahasiswa">Mahasiswa</option>
-                                            <option value="alumni">Alumni</option>
-                                            <option value="umum">Umum</option>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium d-block">Jenis Kelamin</label>
+                                        @php($jenisKelamin = old('jenis_kelamin', $pendaftaranTes->jenis_kelamin))
+                                        <div class="form-check form-check-inline me-4">
+                                            <input class="form-check-input custom-radio" type="radio" name="jenis_kelamin"
+                                                id="laki" value="Laki-laki" @checked($jenisKelamin === 'Laki-laki') required>
+                                            <label class="form-check-label" for="laki">Laki-laki</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input custom-radio" type="radio" name="jenis_kelamin"
+                                                id="perempuan" value="Perempuan" @checked($jenisKelamin === 'Perempuan') required>
+                                            <label class="form-check-label" for="perempuan">Perempuan</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Status</label>
+                                        @php($statusPendaftar = old('status_pendaftar', $pendaftaranTes->status_pendaftar))
+                                        <select class="form-select form-control-custom" name="status_pendaftar"
+                                            id="statusSelect" required>
+                                            <option value="" disabled @selected($statusPendaftar === null)>Pilih Status
+                                            </option>
+                                            <option value="mahasiswa" @selected($statusPendaftar === 'mahasiswa')>Mahasiswa</option>
+                                            <option value="alumni" @selected($statusPendaftar === 'alumni')>Alumni</option>
+                                            <option value="umum" @selected($statusPendaftar === 'umum')>Umum</option>
                                         </select>
                                     </div>
-                                </div>
 
-                                <!-- Conditional Fields: Mahasiswa -->
-                                <div id="mahasiswaFields" class="status-fields" style="display: none;">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-medium">NIM <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-custom" name="nim_mhs">
+                                    <div class="col-md-6 status-fields" id="nimFields" style="display: none;">
+                                        <label class="form-label fw-medium">NIM</label>
+                                        <input type="number" class="form-control form-control-custom" name="nim"
+                                            value="{{ old('nim', $pendaftaranTes->nim) }}">
                                     </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-medium">Program Studi <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select form-control-custom" name="prodi_mhs">
-                                            <option value="" disabled selected>Pilih Program Studi</option>
-                                            <option value="D3 Teknik Mesin">D3 Teknik Mesin</option>
-                                            <option value="D3 Teknik Listrik">D3 Teknik Listrik</option>
-                                            <option value="D3 Teknik Elektronika">D3 Teknik Elektronika</option>
-                                            <option value="D3 Teknik Informatika">D3 Teknik Informatika</option>
-                                            <option value="D4 Teknik Pengendalian Pencemaran Lingkungan">D4 Teknik
+
+                                    <div class="col-md-6 status-fields" id="prodiFields" style="display: none;">
+                                        <label class="form-label fw-medium">Program Studi</label>
+                                        @php($programStudi = old('program_studi', $pendaftaranTes->program_studi))
+                                        <select class="form-select form-control-custom" name="program_studi">
+                                            <option value="" disabled @selected($programStudi === null)>Pilih Program Studi</option>
+                                            <option value="D3 Teknik Mesin" @selected($programStudi === 'D3 Teknik Mesin')>D3 Teknik Mesin</option>
+                                            <option value="D3 Teknik Listrik" @selected($programStudi === 'D3 Teknik Listrik')>D3 Teknik Listrik</option>
+                                            <option value="D3 Teknik Elektronika" @selected($programStudi === 'D3 Teknik Elektronika')>D3 Teknik Elektronika</option>
+                                            <option value="D3 Teknik Informatika" @selected($programStudi === 'D3 Teknik Informatika')>D3 Teknik Informatika</option>
+                                            <option value="D4 Teknik Pengendalian Pencemaran Lingkungan" @selected($programStudi === 'D4 Teknik Pengendalian Pencemaran Lingkungan')>D4 Teknik
                                                 Pengendalian Pencemaran Lingkungan</option>
-                                            <option value="D4 Akutansi Lembaga Keuangan Syariah">D4 Akutansi Lembaga
+                                            <option value="D4 Akutansi Lembaga Keuangan Syariah" @selected($programStudi === 'D4 Akutansi Lembaga Keuangan Syariah')>D4 Akutansi Lembaga
                                                 Keuangan Syariah</option>
-                                            <option value="D4 Rekayasa Keamanan Siber">D4 Rekayasa Keamanan Siber</option>
-                                            <option value="D4 Pengembangan Produk Agroindustri">D4 Pengembangan Produk
+                                            <option value="D4 Rekayasa Keamanan Siber" @selected($programStudi === 'D4 Rekayasa Keamanan Siber')>D4 Rekayasa Keamanan Siber</option>
+                                            <option value="D4 Pengembangan Produk Agroindustri" @selected($programStudi === 'D4 Pengembangan Produk Agroindustri')>D4 Pengembangan Produk
                                                 Agroindustri</option>
-                                            <option value="D4 Teknologi Rekayasa Multimedia">D4 Teknologi Rekayasa
+                                            <option value="D4 Teknologi Rekayasa Multimedia" @selected($programStudi === 'D4 Teknologi Rekayasa Multimedia')>D4 Teknologi Rekayasa
                                                 Multimedia</option>
-                                            <option value="D4 Teknologi Rekayasa Perangkat Lunak">D4 Teknologi Rekayasa
+                                            <option value="D4 Teknologi Rekayasa Perangkat Lunak" @selected($programStudi === 'D4 Teknologi Rekayasa Perangkat Lunak')>D4 Teknologi Rekayasa
                                                 Perangkat Lunak</option>
-                                            <option value="D4 Teknologi Rekayasa Energi Terbarukan">D4 Teknologi Rekayasa
+                                            <option value="D4 Teknologi Rekayasa Energi Terbarukan" @selected($programStudi === 'D4 Teknologi Rekayasa Energi Terbarukan')>D4 Teknologi Rekayasa
                                                 Energi Terbarukan</option>
-                                            <option value="D4 Teknologi Rekayasa Kimia Industri">D4 Teknologi Rekayasa Kimia
+                                            <option value="D4 Teknologi Rekayasa Kimia Industri" @selected($programStudi === 'D4 Teknologi Rekayasa Kimia Industri')>D4 Teknologi Rekayasa Kimia
                                                 Industri</option>
-                                            <option value="D4 Teknologi Rekayasa Mekatronika">D4 Teknologi Rekayasa
+                                            <option value="D4 Teknologi Rekayasa Mekatronika" @selected($programStudi === 'D4 Teknologi Rekayasa Mekatronika')>D4 Teknologi Rekayasa
                                                 Mekatronika</option>
                                         </select>
+                                        {{-- <input type="text" class="form-control form-control-custom"
+                                            name="program_studi"
+                                            value="{{ old('program_studi', $pendaftaranTes->program_studi) }}"> --}}
                                     </div>
-                                </div>
 
-                                <!-- Conditional Fields: Alumni -->
-                                <div id="alumniFields" class="status-fields" style="display: none;">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-medium">NIM <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-custom" name="nim_alumni">
+                                    <div class="col-md-6 status-fields" id="tahunLulusFields" style="display: none;">
+                                        <label class="form-label fw-medium">Tahun Lulus</label>
+                                        <input type="number" class="form-control form-control-custom" name="tahun_lulus"
+                                            value="{{ old('tahun_lulus', $pendaftaranTes->tahun_lulus) }}"
+                                            maxlength="4">
                                     </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-medium">Program Studi <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select form-control-custom" name="prodi_alumni">
-                                            <option value="" disabled selected>Pilih Program Studi</option>
-                                            <option value="D3 Teknik Mesin">D3 Teknik Mesin</option>
-                                            <option value="D3 Teknik Listrik">D3 Teknik Listrik</option>
-                                            <option value="D3 Teknik Elektronika">D3 Teknik Elektronika</option>
-                                            <option value="D3 Teknik Informatika">D3 Teknik Informatika</option>
-                                            <option value="D4 Teknik Pengendalian Pencemaran Lingkungan">D4 Teknik
-                                                Pengendalian Pencemaran Lingkungan</option>
-                                            <option value="D4 Akutansi Lembaga Keuangan Syariah">D4 Akutansi Lembaga
-                                                Keuangan Syariah</option>
-                                            <option value="D4 Rekayasa Keamanan Siber">D4 Rekayasa Keamanan Siber</option>
-                                            <option value="D4 Pengembangan Produk Agroindustri">D4 Pengembangan Produk
-                                                Agroindustri</option>
-                                            <option value="D4 Teknologi Rekayasa Multimedia">D4 Teknologi Rekayasa
-                                                Multimedia</option>
-                                            <option value="D4 Teknologi Rekayasa Perangkat Lunak">D4 Teknologi Rekayasa
-                                                Perangkat Lunak</option>
-                                            <option value="D4 Teknologi Rekayasa Energi Terbarukan">D4 Teknologi Rekayasa
-                                                Energi Terbarukan</option>
-                                            <option value="D4 Teknologi Rekayasa Kimia Industri">D4 Teknologi Rekayasa
-                                                Kimia Industri</option>
-                                            <option value="D4 Teknologi Rekayasa Mekatronika">D4 Teknologi Rekayasa
-                                                Mekatronika</option>
+
+                                    <div class="col-md-6 status-fields" id="ktpFields" style="display: none;">
+                                        <label class="form-label fw-medium">Nomor KTP</label>
+                                        <input type="number" class="form-control form-control-custom" name="no_ktp"
+                                            value="{{ old('no_ktp', $pendaftaranTes->no_ktp) }}">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Nomor WhatsApp</label>
+                                        <input type="number" class="form-control form-control-custom" name="no_wa"
+                                            value="{{ old('no_wa', $pendaftaranTes->no_wa) }}" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Keperluan Tes</label>
+                                        @php($keperluanTes = old('keperluan_tes', $pendaftaranTes->keperluan_tes))
+                                        <select class="form-select form-control-custom" name="keperluan_tes" required>
+                                            <option value="" disabled @selected($keperluanTes === null)>Pilih Keperluan
+                                            </option>
+                                            <option value="Syarat Kelulusan" @selected($keperluanTes === 'Syarat Kelulusan')>Syarat Kelulusan
+                                            </option>
+                                            <option value="Pendaftaran Kerja" @selected($keperluanTes === 'Pendaftaran Kerja')>Pendaftaran
+                                                Kerja</option>
+                                            <option value="Pendaftaran Studi Lanjut" @selected($keperluanTes === 'Pendaftaran Studi Lanjut')>
+                                                Pendaftaran Studi Lanjut</option>
+                                            <option value="Persyaratan Beasiswa" @selected($keperluanTes === 'Persyaratan Beasiswa')>Persyaratan
+                                                Beasiswa</option>
+                                            <option value="Lainnya" @selected($keperluanTes === 'Lainnya')>Lainnya</option>
                                         </select>
                                     </div>
-                                    <div class="mb-4">
-                                        <label class="form-label fw-medium">Tahun Lulus <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select form-control-custom" name="tahun_lulus">
-                                            <option value="" disabled selected>Pilih Tahun Lulus</option>
-                                            @for ($i = date('Y'); $i >= 2010; $i--)
-                                                <option value="{{ $i }}">{{ $i }}</option>
-                                            @endfor
-                                        </select>
+
+                                    <div class="col-12">
+                                        <div class="form-check custom-checkbox-wrapper">
+                                            <input class="form-check-input custom-checkbox" type="checkbox"
+                                                id="agree" name="agree" value="1"
+                                                @checked(old('agree')) required>
+                                            <label class="form-check-label ms-2" for="agree">
+                                                Saya menyetujui <a href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#termsModal" class="text-decoration-none fw-bold"
+                                                    style="color: #5D16A6;">Syarat & Ketentuan</a>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Conditional Fields: Umum -->
-                                <div id="umumFields" class="status-fields" style="display: none;">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-medium">Nomor KTP <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-custom" name="no_ktp">
-                                    </div>
-                                </div>
-
-                                <!-- Common Fields -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-medium">Nomor WhatsApp <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-custom" name="no_wa"
-                                        required>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-medium">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control form-control-custom" name="email"
-                                        required>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-medium">Keperluan Tes <span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select form-control-custom" name="keperluan" required>
-                                        <option value="" disabled selected>Pilih Keperluan</option>
-                                        <option value="Syarat Kelulusan">Syarat Kelulusan</option>
-                                        <option value="Pendaftaran Kerja">Pendaftaran Kerja</option>
-                                        <option value="Pendaftaran Studi Lanjut">Pendaftaran Studi Lanjut</option>
-                                        <option value="Persyaratan Beasiswa">Persyaratan Beasiswa</option>
-                                        <option value="Lainnya">Lainnya</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-4">
-                                    <div class="form-check custom-checkbox-wrapper">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" id="agree"
-                                            required>
-                                        <label class="form-check-label ms-2" for="agree">
-                                            Saya menyetujui <a href="javascript:void(0)"
-                                                class="text-purple fw-bold text-decoration-none" data-bs-toggle="modal"
-                                                data-bs-target="#termsModal">Syarat & Ketentuan</a>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="mt-5">
-                                    <button type="submit" class="btn btn-auth w-100 py-3"
-                                        style="border-radius: 50px; font-size: 1.1rem;">Lanjut ke Pembayaran</button>
+                                <div class="d-flex justify-content-end gap-3 mt-5">
+                                    <a href="{{ route('jadwal') }}" class="btn btn-outline-custom py-3">Kembali ke
+                                        Jadwal</a>
+                                    <button type="submit" class="btn btn-simpan py-3">Simpan dan
+                                        Lanjutkan</button>
                                 </div>
                             </form>
                         </div>
@@ -252,11 +265,11 @@
 
             .step-line {
                 position: absolute;
-                top: 25px;
-                left: 50px;
-                right: 50px;
+                top: 24px;
+                left: 10%;
+                right: 10%;
                 height: 2px;
-                background-color: #e0e0e0;
+                background-color: #ded6ef;
                 z-index: -1;
             }
 
@@ -264,51 +277,43 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                gap: 10px;
                 background-color: #f8f4ff;
-                padding: 0 10px;
+                padding: 0 8px;
             }
 
             .reg-step-icon-wrapper {
-                width: 50px;
-                height: 50px;
+                width: 48px;
+                height: 48px;
                 border-radius: 50%;
-                background-color: #e0e0e0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-bottom: 10px;
-                transition: all 0.3s ease;
+                background-color: #d6c8ef;
+                color: #5d16a6;
+                font-weight: 700;
             }
 
             .step-item.active .reg-step-icon-wrapper {
                 background-color: var(--color-primary);
-            }
-
-            .reg-step-icon {
-                width: 22px;
-                height: 22px;
-                object-fit: contain;
-                filter: grayscale(100%) opacity(0.5);
-            }
-
-            .step-item.active .reg-step-icon {
-                filter: brightness(0) invert(1);
+                color: #fff;
             }
 
             .step-label {
-                font-size: 0.85rem;
-                font-weight: 500;
-                color: #999;
+                color: #7f6a9b;
+                font-size: 0.9rem;
+                font-weight: 600;
             }
 
-            .step-item.active .step-label {
+            .step-item.active .step-label,
+            .text-purple {
                 color: var(--color-primary);
-                font-weight: 700;
             }
 
             .form-control-custom {
                 background-color: #ffffff !important;
                 border: 1.5px solid #d1d1d1 !important;
+                min-height: 48px;
             }
 
             .form-control-custom:focus {
@@ -316,43 +321,37 @@
                 box-shadow: 0 0 0 0.25rem rgba(93, 22, 166, 0.1) !important;
             }
 
-            .text-purple {
-                color: var(--color-primary);
-            }
-
-            /* Custom Radio Styling */
-            .custom-radio {
-                width: 20px;
-                height: 20px;
-                border: 2px solid var(--color-primary) !important;
-                margin-top: 0.2rem;
-                cursor: pointer;
-            }
-
-            .custom-radio:checked {
-                background-color: var(--color-primary) !important;
-                border-color: var(--color-primary) !important;
-                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e") !important;
-            }
-
-            /* Custom Checkbox Styling */
+            .custom-radio,
             .custom-checkbox {
-                width: 20px;
-                height: 20px;
-                border: 2px solid var(--color-primary) !important;
-                border-radius: 6px !important;
-                cursor: pointer;
+                border-color: var(--color-primary) !important;
             }
 
+            .custom-radio:checked,
             .custom-checkbox:checked {
                 background-color: var(--color-primary) !important;
                 border-color: var(--color-primary) !important;
+                color: #fff !important;
             }
 
-            /* Select Arrow Customization */
-            .form-select.form-control-custom {
-                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23370075' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-                background-size: 12px;
+            .btn-simpan {
+                background-color: var(--color-primary, #5D16A6);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 10px 40px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .btn-simpan:hover {
+                background-color: var(--color-dark-purple, #4A1185);
+                transform: translateY(-2px);
+                color: white;
+            }
+
+            .btn-outline-purple {
+                border: 1.5px solid var(--color-primary);
+                color: var(--color-primary);
             }
         </style>
     @endpush
@@ -361,55 +360,39 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const statusSelect = document.getElementById('statusSelect');
-                const mahasiswaFields = document.getElementById('mahasiswaFields');
-                const alumniFields = document.getElementById('alumniFields');
-                const umumFields = document.getElementById('umumFields');
+                const nimFields = document.getElementById('nimFields');
+                const prodiFields = document.getElementById('prodiFields');
+                const tahunLulusFields = document.getElementById('tahunLulusFields');
+                const ktpFields = document.getElementById('ktpFields');
 
                 function toggleFields() {
                     const status = statusSelect.value;
 
-                    // Hide all first
-                    mahasiswaFields.style.display = 'none';
-                    alumniFields.style.display = 'none';
-                    umumFields.style.display = 'none';
+                    [nimFields, prodiFields, tahunLulusFields, ktpFields].forEach(field => {
+                        field.style.display = 'none';
+                        field.querySelector('input')?.removeAttribute('required');
+                    });
 
-                    // Reset required attributes
-                    resetRequired(mahasiswaFields);
-                    resetRequired(alumniFields);
-                    resetRequired(umumFields);
+                    if (status === 'mahasiswa' || status === 'alumni') {
+                        nimFields.style.display = 'block';
+                        prodiFields.style.display = 'block';
+                        nimFields.querySelector('input')?.setAttribute('required', 'required');
+                        prodiFields.querySelector('input')?.setAttribute('required', 'required');
+                    }
 
-                    if (status === 'mahasiswa') {
-                        mahasiswaFields.style.display = 'block';
-                        setRequired(mahasiswaFields);
-                    } else if (status === 'alumni') {
-                        alumniFields.style.display = 'block';
-                        setRequired(alumniFields);
-                    } else if (status === 'umum') {
-                        umumFields.style.display = 'block';
-                        setRequired(umumFields);
+                    if (status === 'alumni') {
+                        tahunLulusFields.style.display = 'block';
+                        tahunLulusFields.querySelector('input')?.setAttribute('required', 'required');
+                    }
+
+                    if (status === 'umum') {
+                        ktpFields.style.display = 'block';
+                        ktpFields.querySelector('input')?.setAttribute('required', 'required');
                     }
                 }
 
-                function setRequired(container) {
-                    const inputs = container.querySelectorAll('input, select');
-                    inputs.forEach(input => {
-                        input.setAttribute('required', 'required');
-                    });
-                }
-
-                function resetRequired(container) {
-                    const inputs = container.querySelectorAll('input, select');
-                    inputs.forEach(input => {
-                        input.removeAttribute('required');
-                    });
-                }
-
                 statusSelect.addEventListener('change', toggleFields);
-
-                // Trigger once on load if there's a value (e.g. old input)
-                if (statusSelect.value) {
-                    toggleFields();
-                }
+                toggleFields();
             });
         </script>
     @endpush
