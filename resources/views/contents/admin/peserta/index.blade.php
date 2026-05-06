@@ -3,10 +3,11 @@
 @section('title', 'Peserta Tes')
 
 @section('content')
-    <div class="search-container">
+    <form method="GET" action="{{ route('admin.peserta') }}" class="search-container">
         <i class="fas fa-search"></i>
-        <input type="text" class="form-control search-input" placeholder="Cari nama atau kode peserta...">
-    </div>
+        <input type="text" name="search" value="{{ request('search') }}" class="form-control search-input"
+            placeholder="Cari nama atau kode peserta...">
+    </form>
 
     <div class="row">
         <div class="col-12">
@@ -17,6 +18,7 @@
                             <th class="py-3 px-4">No</th>
                             <th class="py-3">Nomor Pendaftaran</th>
                             <th class="py-3">Nama Peserta</th>
+                            <th class="py-3">Judul Tes</th>
                             <th class="py-3">Jenis Tes</th>
                             <th class="py-3">Tanggal Daftar</th>
                             <th class="py-3">Total Biaya</th>
@@ -30,6 +32,7 @@
                                 <td class="px-4 text-center">{{ $loop->iteration }}</td>
                                 <td class="fw-bold">{{ $item->nomor_pendaftaran }}</td>
                                 <td>{{ $item->nama_peserta }}</td>
+                                <td>{{ $item->judul_tes }}</td>
                                 <td>{{ $item->jenis_tes }}</td>
                                 <td>{{ $item->tanggal_daftar }}</td>
                                 <td>Rp {{ number_format($item->total_biaya, 0, ',', '.') }}</td>
@@ -38,14 +41,16 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('admin.peserta.score', $item->id) }}" class="btn-score">INPUT SKOR</a>
-                                        <a href="{{ route('admin.peserta.show', $item->id) }}" class="btn-detail">DETAIL</a>
+                                        <a href="{{ route('admin.peserta.score', $item->id) }}" class="btn-score">INPUT
+                                            SKOR</a>
+                                        <a href="{{ route('admin.peserta.show', $item->id) }}"
+                                            class="btn-detail">DETAIL</a>
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4 text-muted">Belum ada data peserta tes.</td>
+                                <td colspan="9" class="text-center py-4 text-muted">Belum ada data peserta tes.</td>
                             </tr>
                         @endforelse
                     </tbody>

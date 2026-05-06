@@ -2,32 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PendaftaranTes;
 use Illuminate\Http\Request;
 
 class PesertaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $peserta = [
-            (object) [
-                'id' => 1,
-                'nomor_pendaftaran' => 'TOEFL-101-260226-013',
-                'nama_peserta' => 'Aika Eva Darlene',
-                'jenis_tes' => 'TOEFL EPT-P',
-                'tanggal_daftar' => '26 Februari 2026',
-                'total_biaya' => 100000,
-                'status_bayar' => 'LUNAS',
-            ],
-            (object) [
-                'id' => 2,
-                'nomor_pendaftaran' => 'TOEFL-102-250701-020',
-                'nama_peserta' => 'Aika Eva Darlene',
-                'jenis_tes' => 'TOEFL ITP',
-                'tanggal_daftar' => '1 Juli 2025',
-                'total_biaya' => 100000,
-                'status_bayar' => 'LUNAS',
-            ],
-        ];
+        $search = trim((string) $request->query('search', ''));
+
+        $query = PendaftaranTes::query()
+            ->with([
+                'jadwalTes:id,judul_tes,jenis_tes',
+                'pembayaran:id,pendaftaran_tes_id,total_tagihan,status',
+            ])
+            ->latest();
+
+        if ($search !== '') {
+            $query->where(function ($builder) use ($search): void {
+                $builder->where('nama_peserta', 'like', '%'.$search.'%')
+                    ->orWhere('nomor_pendaftaran', 'like', '%'.$search.'%');
+            });
+        }
+
+        $peserta = $query->get()->map(static function (PendaftaranTes $item): object {
+            $isLunas = $item->status === PendaftaranTes::STATUS_LUNAS
+                || $item->pembayaran?->status === 'paid';
+
+            return (object) [
+                'id' => $item->id,
+                'nomor_pendaftaran' => $item->nomor_pendaftaran ?? '-',
+                'nama_peserta' => $item->nama_peserta,
+                'judul_tes' => $item->jadwalTes?->judul_tes ?? '-',
+                'jenis_tes' => $item->jadwalTes?->jenis_tes ?? '-',
+                'tanggal_daftar' => tanggal_panjang($item->created_at),
+                'total_biaya' => (float) ($item->pembayaran?->total_tagihan ?? $item->harga_tes),
+                'status_bayar' => $isLunas ? 'LUNAS' : 'BELUM LUNAS',
+            ];
+        });
 
         return view('contents.admin.peserta.index', compact('peserta'));
     }
