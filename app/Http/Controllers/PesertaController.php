@@ -46,38 +46,51 @@ class PesertaController extends Controller
 
     public function show($id)
     {
+        $item = PendaftaranTes::query()
+            ->with([
+                'jadwalTes:id,judul_tes,jenis_tes,tanggal_tes,waktu,lokasi',
+                'pembayaran:id,pendaftaran_tes_id,metode,total_tagihan,status',
+            ])
+            ->findOrFail($id);
+
+        $isLunas = $item->status === PendaftaranTes::STATUS_LUNAS
+            || $item->pembayaran?->status === 'paid';
+
         $peserta = (object) [
-            'id' => $id,
-            'nomor_pendaftaran' => 'TOEFL-101-260226-013',
-            'tanggal_daftar' => '26 Februari 2026',
-            'status_bayar' => 'LUNAS',
+            'id' => $item->id,
+            'nomor_pendaftaran' => $item->nomor_pendaftaran ?? '-',
+            'tanggal_daftar' => tanggal_panjang($item->created_at),
+            'status_bayar' => $isLunas ? 'LUNAS' : 'BELUM LUNAS',
             'tes' => (object) [
-                'nama' => 'Special Ramadhan Batch 1 - EPT-P',
-                'jenis' => 'TOEFL EPT-P',
-                'tanggal' => '9 Maret 2026',
-                'waktu' => '09:00 - 11:00 WIB',
-                'lokasi' => 'Lab. Bahasa GKB Lantai 2',
+                'nama' => $item->jadwalTes?->judul_tes ?? '-',
+                'jenis' => $item->jadwalTes?->jenis_tes ?? '-',
+                'tanggal' => $item->jadwalTes?->tanggal_tes ? tanggal_panjang($item->jadwalTes->tanggal_tes) : '-',
+                'waktu' => $item->jadwalTes?->waktu ?? '-',
+                'lokasi' => $item->jadwalTes?->lokasi ?? '-',
             ],
             'peserta' => (object) [
-                'nama' => 'Aika Eva Darlene',
-                'jenis_kelamin' => 'Perempuan',
-                'status' => 'Mahasiswa',
-                'nim' => '250132102',
-                'program_studi' => 'D3 Teknik Informatika',
-                'no_wa' => '081234567890',
-                'email' => 'aikaeva_darlene.stu@pnc.ac.id',
-                'keperluan' => 'Syarat Kelulusan',
+                'nama' => $item->nama_peserta,
+                'jenis_kelamin' => $item->jenis_kelamin ?? '-',
+                'status' => $item->status_pendaftar ?? '-',
+                'nim' => $item->nim ?? '-',
+                'program_studi' => $item->program_studi ?? '-',
+                'tahun_lulus' => $item->tahun_lulus ?? '-',
+                'no_ktp' => $item->no_ktp ?? '-',
+                'no_wa' => $item->no_wa ?? '-',
+                'email' => $item->email_peserta,
+                'keperluan' => $item->keperluan_tes ?? '-',
             ],
             'pembayaran' => (object) [
-                'total' => 100000,
-                'metode' => 'QRIS',
+                'total' => (float) ($item->pembayaran?->total_tagihan ?? $item->harga_tes),
+                'metode' => $item->pembayaran?->metode ?? '-',
             ],
+            // Hasil tes belum tersimpan di tabel terpisah pada skema saat ini.
             'hasil' => (object) [
-                'listening' => 52,
-                'structure' => 50,
-                'reading' => 56,
-                'total_skor' => 523,
-                'status' => 'LULUS',
+                'listening' => '-',
+                'structure' => '-',
+                'reading' => '-',
+                'total_skor' => '-',
+                'status' => '-',
             ],
         ];
 

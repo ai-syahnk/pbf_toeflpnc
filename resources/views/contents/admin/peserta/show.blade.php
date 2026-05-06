@@ -65,6 +65,10 @@
                     <h5 class="card-custom-title">Data Peserta</h5>
                 </div>
                 <div class="card-body">
+                    @php
+                        $statusPeserta = strtolower((string) $peserta->peserta->status);
+                    @endphp
+
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold text-secondary">Nama Peserta</div>
                         <div class="col-md-9">: {{ $peserta->peserta->nama }}</div>
@@ -75,16 +79,32 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold text-secondary">Status</div>
-                        <div class="col-md-9">: {{ $peserta->peserta->status }}</div>
+                        <div class="col-md-9">: {{ ucfirst(strtolower((string) $peserta->peserta->status)) }}</div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3 fw-bold text-secondary">NIM</div>
-                        <div class="col-md-9">: {{ $peserta->peserta->nim }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3 fw-bold text-secondary">Program Studi</div>
-                        <div class="col-md-9">: {{ $peserta->peserta->program_studi }}</div>
-                    </div>
+
+                    @if ($statusPeserta === 'umum')
+                        <div class="row mb-3">
+                            <div class="col-md-3 fw-bold text-secondary">No KTP</div>
+                            <div class="col-md-9">: {{ $peserta->peserta->no_ktp }}</div>
+                        </div>
+                    @else
+                        <div class="row mb-3">
+                            <div class="col-md-3 fw-bold text-secondary">NIM</div>
+                            <div class="col-md-9">: {{ $peserta->peserta->nim }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3 fw-bold text-secondary">Program Studi</div>
+                            <div class="col-md-9">: {{ $peserta->peserta->program_studi }}</div>
+                        </div>
+
+                        @if ($statusPeserta === 'alumni')
+                            <div class="row mb-3">
+                                <div class="col-md-3 fw-bold text-secondary">Tahun Lulus</div>
+                                <div class="col-md-9">: {{ $peserta->peserta->tahun_lulus }}</div>
+                            </div>
+                        @endif
+                    @endif
+
                     <div class="row mb-3">
                         <div class="col-md-3 fw-bold text-secondary">Nomor WhatsApp</div>
                         <div class="col-md-9">: {{ $peserta->peserta->no_wa }}</div>
