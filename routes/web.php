@@ -7,6 +7,7 @@ use App\Http\Controllers\PendaftaranTesController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\TransaksiPendaftarController;
 use App\Models\JadwalTes;
+use App\Models\PendaftaranTes;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,6 +21,24 @@ if (! function_exists('loadLatestJadwalTes')) {
         return JadwalTes::query()
             ->orderBy('tanggal_tes', 'asc')
             ->orderBy('waktu', 'asc')
+            ->limit($limit)
+            ->get();
+    }
+}
+
+if (! function_exists('loadLatestPendaftaranTerbaru')) {
+    function loadLatestPendaftaranTerbaru(int $limit = 5)
+    {
+        if (! Schema::hasTable('pendaftaran_tes') || ! Schema::hasTable('jadwal_tes')) {
+            return collect();
+        }
+
+        return PendaftaranTes::query()
+            ->with([
+                'jadwalTes:id,judul_tes,jenis_tes',
+                'pembayaran:id,pendaftaran_tes_id,total_tagihan,status',
+            ])
+            ->latest()
             ->limit($limit)
             ->get();
     }
@@ -90,7 +109,23 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/logout', [LoginController::class, 'destroyAdmin'])->name('logout');
 
     Route::get('/dashboard', function () {
-        return view('contents.admin.dashboard');
+        $pendaftaranTerbaru = loadLatestPendaftaranTerbaru()->map(static function (PendaftaranTes $item): object {
+            $isLunas = $item->status === PendaftaranTes::STATUS_LUNAS
+                || $item->pembayaran?->status === 'paid';
+
+            return (object) [
+                'id' => $item->id,
+                'nomor_pendaftaran' => $item->nomor_pendaftaran ?? '-',
+                'nama_peserta' => $item->nama_peserta,
+                'judul_tes' => $item->jadwalTes?->judul_tes ?? '-',
+                'jenis_tes' => $item->jadwalTes?->jenis_tes ?? '-',
+                'tanggal_daftar' => tanggal_panjang($item->created_at),
+                'total_biaya' => (float) ($item->pembayaran?->total_tagihan ?? $item->harga_tes),
+                'status_bayar' => $isLunas ? 'LUNAS' : 'BELUM LUNAS',
+            ];
+        });
+
+        return view('contents.admin.dashboard', compact('pendaftaranTerbaru'));
     })->name('dashboard');
 
     Route::get('/jadwal-tes', [JadwalTesController::class, 'index'])->name('jadwal-tes');

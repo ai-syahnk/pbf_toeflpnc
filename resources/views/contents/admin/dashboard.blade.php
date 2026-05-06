@@ -102,6 +102,7 @@
                             <th class="py-3 px-4">No</th>
                             <th class="py-3">Nomor Pendaftaran</th>
                             <th class="py-3">Nama Peserta</th>
+                            <th class="py-3">Judul Tes</th>
                             <th class="py-3">Jenis Tes</th>
                             <th class="py-3">Tanggal Daftar</th>
                             <th class="py-3">Total Biaya</th>
@@ -110,30 +111,26 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white">
-                        <tr>
-                            <td class="px-4">1</td>
-                            <td>TOEFL-101-260226-013</td>
-                            <td>Aika Eva Darlene</td>
-                            <td>TOEFL EPT-P</td>
-                            <td>26 Februari 2026</td>
-                            <td>Rp 100.000</td>
-                            <td><span class="badge-lunas small">LUNAS</span></td>
-                            <td class="text-center">
-                                <button class="btn btn-detail">DETAIL</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-4">2</td>
-                            <td>TOEFL-102-250701-020</td>
-                            <td>Aika Eva Darlene</td>
-                            <td>TOEFL ITP</td>
-                            <td>1 Juli 2025</td>
-                            <td>Rp 100.000</td>
-                            <td><span class="badge-lunas small">LUNAS</span></td>
-                            <td class="text-center">
-                                <button class="btn btn-detail">DETAIL</button>
-                            </td>
-                        </tr>
+                        @forelse ($pendaftaranTerbaru as $item)
+                            <tr>
+                                <td class="px-4">{{ $loop->iteration }}</td>
+                                <td>{{ $item->nomor_pendaftaran }}</td>
+                                <td>{{ $item->nama_peserta }}</td>
+                                <td>{{ $item->judul_tes }}</td>
+                                <td>{{ $item->jenis_tes }}</td>
+                                <td>{{ $item->tanggal_daftar }}</td>
+                                <td>Rp {{ number_format($item->total_biaya, 0, ',', '.') }}</td>
+                                <td><span class="badge-lunas small">{{ $item->status_bayar }}</span></td>
+                                <td class="text-center">
+                                    <a href="{{ route('admin.peserta.show', $item->id) }}" class="btn btn-detail">DETAIL</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="9" class="text-center py-4 text-muted">Belum ada data pendaftaran peserta.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
