@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\JadwalTes;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 use Throwable;
 
 class JadwalTesController extends Controller
 {
+    public function beranda(): View
+    {
+        $jadwalTes = $this->getLatestJadwalTes();
+
+        return view('contents.web.beranda', compact('jadwalTes'));
+    }
+
     public function publicIndex(): View
     {
         $jadwalTes = JadwalTes::query()
@@ -133,5 +141,18 @@ class JadwalTesController extends Controller
             'harga.numeric' => 'Harga harus berupa angka.',
             'harga.min' => 'Harga tidak boleh kurang dari 0.',
         ];
+    }
+
+    private function getLatestJadwalTes(int $limit = 2)
+    {
+        if (! Schema::hasTable('jadwal_tes')) {
+            return collect();
+        }
+
+        return JadwalTes::query()
+            ->orderBy('tanggal_tes', 'asc')
+            ->orderBy('waktu', 'asc')
+            ->limit($limit)
+            ->get();
     }
 }

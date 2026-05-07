@@ -20,7 +20,7 @@
                     </div>
                     <div>
                         <span class="card-title text-success">TOTAL PENDAPATAN</span>
-                        <div class="card-value">Rp 1.200.000</div>
+                        <div class="card-value">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div>
                         <span class="card-title text-warning">TOTAL PESERTA</span>
-                        <div class="card-value">12</div>
+                        <div class="card-value">{{ number_format($totalPeserta, 0, ',', '.') }}</div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     </div>
                     <div>
                         <span class="card-title" style="color: #6D28D9;">JADWAL AKTIF</span>
-                        <div class="card-value">4</div>
+                        <div class="card-value">{{ number_format($totalJadwalAktif, 0, ',', '.') }}</div>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,8 @@
                                 <td>Rp {{ number_format($item->total_biaya, 0, ',', '.') }}</td>
                                 <td><span class="badge-lunas small">{{ $item->status_bayar }}</span></td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.peserta.show', $item->id) }}" class="btn btn-detail">DETAIL</a>
+                                    <a href="{{ route('admin.peserta.show', $item->id) }}"
+                                        class="btn btn-detail">DETAIL</a>
                                 </td>
                             </tr>
                         @empty
@@ -137,3 +138,105 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        (function() {
+            const statistikPendaftaran = @json($statistikPendaftaran);
+            const distribusiTes = @json($distribusiTes);
+            const statusPeserta = @json($statusPeserta);
+
+            // Statistik Pendaftaran Peserta (Bar Chart)
+            const registrationEl = document.getElementById('registrationChart');
+            if (registrationEl && statistikPendaftaran.labels.length) {
+                new Chart(registrationEl.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: statistikPendaftaran.labels,
+                        datasets: [{
+                            label: 'Pendaftaran',
+                            data: statistikPendaftaran.data,
+                            backgroundColor: '#F59E0B',
+                            borderRadius: 5,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    precision: 0,
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+
+            // Distribusi Tes (Pie Chart)
+            const distributionEl = document.getElementById('distributionChart');
+            if (distributionEl && distribusiTes.labels.length) {
+                new Chart(distributionEl.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: distribusiTes.labels,
+                        datasets: [{
+                            label: 'Jml',
+                            data: distribusiTes.data,
+                            backgroundColor: distribusiTes.colors,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+
+            // Status Peserta (Pie Chart)
+            const statusEl = document.getElementById('statusChart');
+            if (statusEl && statusPeserta.labels.length) {
+                new Chart(statusEl.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: statusPeserta.labels,
+                        datasets: [{
+                            label: 'Jml',
+                            data: statusPeserta.data,
+                            backgroundColor: statusPeserta.colors,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+        })();
+    </script>
+@endpush
