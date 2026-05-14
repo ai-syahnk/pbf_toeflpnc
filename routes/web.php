@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HasilTesController;
 use App\Http\Controllers\JadwalTesController;
 use App\Http\Controllers\PendaftaranTesController;
 use App\Http\Controllers\PesertaController;
@@ -17,9 +18,7 @@ Route::get('/tentang', function () {
 
 Route::get('/jadwal-tes', [JadwalTesController::class, 'publicIndex'])->name('jadwal');
 
-Route::get('/hasil-tes', function () {
-    return view('contents.web.hasiltes');
-})->name('hasiltes');
+Route::get('/hasil-tes', [HasilTesController::class, 'index'])->middleware('auth')->name('hasiltes');
 
 // Auth Routes
 Route::middleware('guest')->group(function () {
@@ -78,4 +77,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/peserta', [PesertaController::class, 'index'])->name('peserta');
     Route::get('/peserta/{id}', [PesertaController::class, 'show'])->name('peserta.show');
     Route::get('/peserta/{id}/score', [PesertaController::class, 'editScore'])->name('peserta.score');
+    Route::post('/peserta/{id}/score', [PesertaController::class, 'storeScore'])->name('peserta.score.store');
 });

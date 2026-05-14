@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HasilTes;
 use App\Models\PendaftaranTes;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,7 @@ class PesertaController extends Controller
             ->with([
                 'jadwalTes:id,judul_tes,jenis_tes,tanggal_tes,waktu,lokasi',
                 'pembayaran:id,pendaftaran_tes_id,metode,total_tagihan,status',
+                'hasilTes',
             ])
             ->findOrFail($id);
 
@@ -84,14 +86,13 @@ class PesertaController extends Controller
                 'total' => (float) ($item->pembayaran?->total_tagihan ?? $item->harga_tes),
                 'metode' => $item->pembayaran?->metode ?? '-',
             ],
-            // Hasil tes belum tersimpan di tabel terpisah pada skema saat ini.
-            'hasil' => (object) [
-                'listening' => '-',
-                'structure' => '-',
-                'reading' => '-',
-                'total_skor' => '-',
-                'status' => '-',
-            ],
+            'hasil' => $item->hasilTes ? (object) [
+                'listening' => (int) $item->hasilTes->listening,
+                'structure' => (int) $item->hasilTes->structure,
+                'reading' => (int) $item->hasilTes->reading,
+                'total_skor' => (int) $item->hasilTes->total_skor,
+                'status_kelulusan' => (string) $item->hasilTes->status_kelulusan,
+            ] : null,
         ];
 
         return view('contents.admin.peserta.show', compact('peserta'));
@@ -99,12 +100,70 @@ class PesertaController extends Controller
 
     public function editScore($id)
     {
+        $item = PendaftaranTes::query()
+            ->with(['hasilTes'])
+            ->findOrFail($id);
+
         $peserta = (object) [
-            'id' => $id,
-            'nomor_pendaftaran' => 'TOEFL-101-260226-013',
-            'nama_peserta' => 'Aika Eva Darlene',
+            'id' => $item->id,
+            'nomor_pendaftaran' => $item->nomor_pendaftaran ?? '-',
+            'nama_peserta' => $item->nama_peserta,
+            'hasil' => $item->hasilTes ? (object) [
+                'listening' => $item->hasilTes->listening,
+                'structure' => $item->hasilTes->structure,
+                'reading' => $item->hasilTes->reading,
+                'total_skor' => $item->hasilTes->total_skor,
+                'status_kelulusan' => $item->hasilTes->status_kelulusan,
+            ] : null,
         ];
 
         return view('contents.admin.peserta.score', compact('peserta'));
+    }
+
+    public function storeScore(Request $request, $id)
+    {
+        $pendaftaran = PendaftaranTes::findOrFail($id);
+
+        $validated = $request->validate([
+            'listening' => 'required|integer|min:31|max:68',
+            'structure' => 'required|integer|min:31|max:68',
+            'reading' => 'required|integer|min:31|max:68',
+        ], [
+            'listening.required' => 'Skor Listening harus diisi',
+            'listening.integer' => 'Skor Listening harus berupa angka',
+            'listening.min' => 'Skor Listening minimal 31',
+            'listening.max' => 'Skor Listening maksimal 68',
+            'structure.required' => 'Skor Structure harus diisi',
+            'structure.integer' => 'Skor Structure harus berupa angka',
+            'structure.min' => 'Skor Structure minimal 31',
+            'structure.max' => 'Skor Structure maksimal 68',
+            'reading.required' => 'Skor Reading harus diisi',
+            'reading.integer' => 'Skor Reading harus berupa angka',
+            'reading.min' => 'Skor Reading minimal 31',
+            'reading.max' => 'Skor Reading maksimal 68',
+        ]);
+
+        $listening = (int) $validated['listening'];
+        $structure = (int) $validated['structure'];
+        $reading = (int) $validated['reading'];
+
+        $totalSkor = HasilTes::calculateTotalSkor($listening, $structure, $reading);
+        $statusKelulusan = HasilTes::determineStatus($totalSkor);
+
+        HasilTes::updateOrCreate(
+            ['pendaftaran_tes_id' => $id],
+            [
+                'listening' => $listening,
+                'structure' => $structure,
+                'reading' => $reading,
+                'total_skor' => $totalSkor,
+                'status_kelulusan' => $statusKelulusan,
+                'diinput_pada' => now(),
+            ]
+        );
+
+        return redirect()
+            ->route('admin.peserta.show', $id)
+            ->with('success', 'Skor peserta berhasil disimpan. Status kelulusan: ' . str_replace('_', ' ', strtoupper($statusKelulusan)));
     }
 }
