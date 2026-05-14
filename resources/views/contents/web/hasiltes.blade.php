@@ -152,7 +152,8 @@
                                 </div>
 
                                 <div class="d-flex gap-3 flex-wrap mt-4">
-                                    <a href="#" class="btn btn-outline-custom d-flex align-items-center gap-2">
+                                    <a href="{{ route('hasiltes.surat-pengambilan.pdf') }}"
+                                        class="btn btn-outline-custom d-flex align-items-center gap-2">
                                         <img src="{{ asset('icons/paper.png') }}" width="14"> Unduh Surat Pengambilan
                                     </a>
                                     <a href="#" class="btn btn-outline-custom d-flex align-items-center gap-2">

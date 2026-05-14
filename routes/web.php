@@ -20,6 +20,9 @@ Route::get('/tentang', function () {
 Route::get('/jadwal-tes', [JadwalTesController::class, 'publicIndex'])->name('jadwal');
 
 Route::get('/hasil-tes', [HasilTesController::class, 'index'])->middleware('auth')->name('hasiltes');
+Route::get('/hasil-tes/surat-pengambilan/pdf', [HasilTesController::class, 'unduhSuratPengambilanPdf'])
+    ->middleware('auth')
+    ->name('hasiltes.surat-pengambilan.pdf');
 
 // Auth Routes
 Route::middleware('guest')->group(function () {
