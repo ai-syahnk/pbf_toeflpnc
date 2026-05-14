@@ -72,6 +72,48 @@ class HasilTesController extends Controller
         return $pdf->download(sprintf('surat-pengambilan-sertifikat-%s.pdf', strtolower($user->name)));
     }
 
+    public function unduhSuratKuasaPdf(Request $request): Response
+    {
+        $user = $request->user();
+        abort_unless($user !== null, 403);
+
+        $pendaftaran = PendaftaranTes::query()
+            ->where('user_id', $user->id)
+            ->whereHas('hasilTes')
+            ->with('jadwalTes')
+            ->latest('created_at')
+            ->first();
+
+        abort_unless($pendaftaran !== null, 404);
+
+        $identitasPeserta = $pendaftaran->nim ?: $pendaftaran->no_ktp;
+        $statusPeserta = $pendaftaran->status_pendaftar
+            ? ucfirst(strtolower($pendaftaran->status_pendaftar))
+            : null;
+        $namaTes = $pendaftaran->jadwalTes?->jenis_tes;
+        $tanggalTes = $pendaftaran->jadwalTes?->tanggal_tes
+            ? tanggal_panjang($pendaftaran->jadwalTes->tanggal_tes)
+            : null;
+
+        $tahunSurat = now()->year;
+        $nomorUrutSurat = $this->generateNomorSuratPengambilan($pendaftaran, $tahunSurat);
+        $nomorSurat = sprintf('%03d/SK-TOEFL/UPA PNC/%d', $nomorUrutSurat, $tahunSurat);
+
+        $pdf = Pdf::loadView('contents.pendaftar.surat.kuasa.pdf', [
+            'logoPath' => public_path('images/logo_pnc_3.png'),
+            'nomorSurat' => $nomorSurat,
+            'namaPeserta' => $pendaftaran->nama_peserta,
+            'statusPeserta' => $statusPeserta,
+            'identitasPeserta' => $identitasPeserta,
+            'namaPenerimaKuasa' => null,
+            'identitasPenerimaKuasa' => null,
+            'namaTes' => $namaTes,
+            'tanggalTes' => $tanggalTes,
+        ])->setPaper('a4');
+
+        return $pdf->download(sprintf('surat-kuasa-pengambilan-sertifikat-%s.pdf', strtolower($user->name)));
+    }
+
     private function generateNomorSuratPengambilan(PendaftaranTes $pendaftaran, int $tahunSurat): int
     {
         return DB::transaction(function () use ($pendaftaran, $tahunSurat): int {

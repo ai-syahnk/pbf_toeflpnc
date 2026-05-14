@@ -156,7 +156,8 @@
                                         class="btn btn-outline-custom d-flex align-items-center gap-2">
                                         <img src="{{ asset('icons/paper.png') }}" width="14"> Unduh Surat Pengambilan
                                     </a>
-                                    <a href="#" class="btn btn-outline-custom d-flex align-items-center gap-2">
+                                    <a href="{{ route('hasiltes.surat-kuasa.pdf') }}"
+                                        class="btn btn-outline-custom d-flex align-items-center gap-2">
                                         <img src="{{ asset('icons/paper.png') }}" width="14"> Unduh Surat Kuasa
                                     </a>
                                 </div>

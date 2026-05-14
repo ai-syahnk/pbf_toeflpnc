@@ -23,6 +23,9 @@ Route::get('/hasil-tes', [HasilTesController::class, 'index'])->middleware('auth
 Route::get('/hasil-tes/surat-pengambilan/pdf', [HasilTesController::class, 'unduhSuratPengambilanPdf'])
     ->middleware('auth')
     ->name('hasiltes.surat-pengambilan.pdf');
+Route::get('/hasil-tes/surat-kuasa/pdf', [HasilTesController::class, 'unduhSuratKuasaPdf'])
+    ->middleware('auth')
+    ->name('hasiltes.surat-kuasa.pdf');
 
 // Auth Routes
 Route::middleware('guest')->group(function () {
