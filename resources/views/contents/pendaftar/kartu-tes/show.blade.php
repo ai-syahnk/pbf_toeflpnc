@@ -107,7 +107,8 @@
 
             <div class="d-flex justify-content-end gap-3 mt-4 flex-wrap">
                 <a href="{{ route('transaksi.detail', $pendaftaranTes) }}" class="btn-kembali">Kembali ke Detail</a>
-                <button type="button" class="btn-unduh" onclick="window.print()">Cetak Kartu Tes</button>
+                <a href="{{ route('transaksi.kartu-tes.pdf', $pendaftaranTes) }}" class="btn-unduh"><i
+                        class="fas fa-download"></i> Unduh PDF</a>
             </div>
         </div>
     </section>

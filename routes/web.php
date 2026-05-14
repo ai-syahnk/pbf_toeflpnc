@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/riwayat', [TransaksiPendaftarController::class, 'riwayat'])->name('riwayat');
         Route::get('/{pendaftaranTes}', [TransaksiPendaftarController::class, 'detail'])->name('detail');
         Route::get('/{pendaftaranTes}/kartu-tes', [TransaksiPendaftarController::class, 'kartuTes'])->name('kartu-tes');
+        Route::get('/{pendaftaranTes}/kartu-tes/pdf', [TransaksiPendaftarController::class, 'unduhKartuTesPdf'])->name('kartu-tes.pdf');
     });
 
     Route::prefix('/pendaftaran')->name('pendaftaran.')->group(function () {

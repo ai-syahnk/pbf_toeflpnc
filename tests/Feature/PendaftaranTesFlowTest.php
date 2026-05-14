@@ -32,7 +32,8 @@ class PendaftaranTesFlowTest extends TestCase
 
     public function test_authenticated_user_can_complete_registration_until_payment_is_paid(): void
     {
-        $user = User::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->createOne();
         $jadwalTes = JadwalTes::query()->create([
             'judul_tes' => 'TOEFL Batch 1',
             'jenis_tes' => 'EPT-P',
@@ -115,8 +116,10 @@ class PendaftaranTesFlowTest extends TestCase
 
     public function test_user_cannot_open_other_users_transaction_detail(): void
     {
-        $owner = User::factory()->create();
-        $otherUser = User::factory()->create();
+        /** @var User $owner */
+        $owner = User::factory()->createOne();
+        /** @var User $otherUser */
+        $otherUser = User::factory()->createOne();
         $jadwalTes = JadwalTes::query()->create([
             'judul_tes' => 'TOEFL Batch 2',
             'jenis_tes' => 'ITP',
@@ -156,5 +159,95 @@ class PendaftaranTesFlowTest extends TestCase
         $this->actingAs($otherUser)
             ->get(route('transaksi.detail', $pendaftaranTes))
             ->assertNotFound();
+    }
+
+    public function test_paid_participant_can_download_kartu_tes_as_pdf(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->createOne();
+        $jadwalTes = JadwalTes::query()->create([
+            'judul_tes' => 'TOEFL Batch PDF',
+            'jenis_tes' => 'ITP',
+            'tanggal_tes' => now()->addDays(7)->toDateString(),
+            'waktu' => '08:00 - 10:00 WIB',
+            'lokasi' => 'Lab Komputer 1',
+            'kuota' => 25,
+            'harga' => 150000,
+        ]);
+
+        $pendaftaranTes = PendaftaranTes::query()->create([
+            'user_id' => $user->id,
+            'jadwal_tes_id' => $jadwalTes->id,
+            'nomor_pendaftaran' => 'TOEFL-003-140526-001',
+            'current_step' => 3,
+            'status' => PendaftaranTes::STATUS_LUNAS,
+            'harga_tes' => 150000,
+            'dibayar_pada' => now(),
+            'nomor_kursi' => 'B-012',
+            'nama_peserta' => 'Peserta PDF',
+            'email_peserta' => 'pdf@example.com',
+            'jenis_kelamin' => 'Perempuan',
+            'status_pendaftar' => 'mahasiswa',
+            'nim' => '24001234',
+            'program_studi' => 'D4 Pengembangan Perangkat Lunak',
+            'no_wa' => '081200000001',
+            'keperluan_tes' => 'Persyaratan akademik',
+        ]);
+
+        PembayaranPendaftaran::query()->create([
+            'pendaftaran_tes_id' => $pendaftaranTes->id,
+            'metode' => 'Transfer Bank',
+            'total_tagihan' => 150000,
+            'status' => PembayaranPendaftaran::STATUS_PAID,
+            'paid_at' => now(),
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('transaksi.kartu-tes.pdf', $pendaftaranTes))
+            ->assertOk()
+            ->assertHeader('content-type', 'application/pdf')
+            ->assertHeader('content-disposition', 'attachment; filename=kartu-tes-TOEFL-003-140526-001.pdf');
+    }
+
+    public function test_unpaid_participant_cannot_download_kartu_tes_pdf(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->createOne();
+        $jadwalTes = JadwalTes::query()->create([
+            'judul_tes' => 'TOEFL Batch Pending',
+            'jenis_tes' => 'EPT-P',
+            'tanggal_tes' => now()->addDays(5)->toDateString(),
+            'waktu' => '10:00 - 12:00 WIB',
+            'lokasi' => 'Lab Bahasa 2',
+            'kuota' => 20,
+            'harga' => 100000,
+        ]);
+
+        $pendaftaranTes = PendaftaranTes::query()->create([
+            'user_id' => $user->id,
+            'jadwal_tes_id' => $jadwalTes->id,
+            'nomor_pendaftaran' => 'TOEFL-004-140526-001',
+            'current_step' => 2,
+            'status' => PendaftaranTes::STATUS_MENUNGGU_PEMBAYARAN,
+            'harga_tes' => 100000,
+            'hold_expires_at' => now()->addHour(),
+            'nama_peserta' => 'Peserta Pending',
+            'email_peserta' => 'pending@example.com',
+            'jenis_kelamin' => 'Laki-laki',
+            'status_pendaftar' => 'umum',
+            'no_wa' => '081200000002',
+            'keperluan_tes' => 'Kebutuhan kerja',
+        ]);
+
+        PembayaranPendaftaran::query()->create([
+            'pendaftaran_tes_id' => $pendaftaranTes->id,
+            'metode' => 'QRIS',
+            'total_tagihan' => 100000,
+            'status' => PembayaranPendaftaran::STATUS_PENDING,
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('transaksi.kartu-tes.pdf', $pendaftaranTes))
+            ->assertForbidden();
     }
 }
