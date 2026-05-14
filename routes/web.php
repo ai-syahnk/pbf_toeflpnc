@@ -7,6 +7,7 @@ use App\Http\Controllers\HasilTesController;
 use App\Http\Controllers\JadwalTesController;
 use App\Http\Controllers\PendaftaranTesController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TransaksiPendaftarController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,13 +36,9 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('logout')->mid
 Route::middleware('auth')->group(function () {
     Route::get('/beranda', [JadwalTesController::class, 'beranda'])->name('beranda');
 
-    Route::get('/profil', function () {
-        return view('contents.pendaftar.profil.index');
-    })->name('profil');
-
-    Route::get('/profil/edit', function () {
-        return view('contents.pendaftar.profil.edit');
-    })->name('profil.edit');
+    Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
+    Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
+    Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
 
     Route::prefix('/transaksi')->name('transaksi.')->group(function () {
         Route::get('/riwayat', [TransaksiPendaftarController::class, 'riwayat'])->name('riwayat');

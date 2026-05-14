@@ -1,6 +1,13 @@
 @extends('layouts.web.main')
 
 @section('content')
+    @php
+        $currentUser = $user ?? Auth::user();
+        $fotoProfilUrl = $currentUser?->foto_profil
+            ? asset('storage/' . $currentUser->foto_profil)
+            : asset('images/profil2.jpg');
+    @endphp
+
     <!-- Profile Header Background -->
     <div class="profile-header-bg"></div>
 
@@ -15,22 +22,37 @@
                             <div class="title-underline"></div>
                         </div>
 
-                        <form action="#" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('profil.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    <ul class="mb-0 ps-3">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <!-- Ganti Foto Section -->
                             <div class="photo-upload-section mb-4">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <div class="profile-img-wrapper">
-                                            <img src="{{ asset('images/profil2.jpg') }}" alt="{{ Auth::user()->name }}" class="profile-img-preview">
+                                            <img src="{{ $fotoProfilUrl }}" alt="{{ $currentUser?->name }}"
+                                                class="profile-img-preview" id="profile-img-preview">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <h5 class="upload-label mb-3">Ganti Foto</h5>
                                         <div class="d-flex align-items-center">
-                                            <input type="file" id="foto" name="foto" class="d-none" onchange="updateFileName(this)">
+                                            <input type="file" id="foto" name="foto" class="d-none"
+                                                accept="image/*" onchange="updateFileName(this)">
                                             <label for="foto" class="btn-choose-file">Choose File</label>
-                                            <span id="file-name-display" class="ms-3 text-muted" style="font-size: 14px;">No file chosen</span>
+                                            <span id="file-name-display" class="ms-3 text-muted" style="font-size: 14px;">No
+                                                file chosen</span>
                                         </div>
                                     </div>
                                 </div>
@@ -39,12 +61,33 @@
                             <!-- Form Fields -->
                             <div class="mb-4">
                                 <label for="name" class="form-label-custom">Nama Lengkap</label>
-                                <input type="text" class="form-control-custom" id="name" name="name" value="{{ Auth::user()->name }}" placeholder="Masukkan nama lengkap">
+                                <input type="text" class="form-control-custom" id="name" name="name"
+                                    value="{{ old('name', $currentUser?->name) }}" placeholder="Masukkan nama lengkap">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="form-label-custom">Email</label>
+                                <input type="email" class="form-control-custom" id="email" name="email"
+                                    value="{{ old('email', $currentUser?->email) }}" placeholder="Masukkan alamat email">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="current_password" class="form-label-custom">Password Lama</label>
+                                <input type="password" class="form-control-custom" id="current_password"
+                                    name="current_password" placeholder="Isi jika ingin mengganti password">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="new_password" class="form-label-custom">Password Baru</label>
+                                <input type="password" class="form-control-custom" id="new_password" name="new_password"
+                                    placeholder="Minimal 8 karakter">
                             </div>
 
                             <div class="mb-5">
-                                <label for="email" class="form-label-custom">Email</label>
-                                <input type="email" class="form-control-custom" id="email" name="email" value="{{ Auth::user()->email }}" placeholder="Masukkan alamat email">
+                                <label for="new_password_confirmation" class="form-label-custom">Konfirmasi Password
+                                    Baru</label>
+                                <input type="password" class="form-control-custom" id="new_password_confirmation"
+                                    name="new_password_confirmation" placeholder="Ulangi password baru">
                             </div>
 
                             <div class="d-flex justify-content-end gap-3">
@@ -196,18 +239,23 @@
             .edit-profile-card {
                 padding: 30px 20px;
             }
+
             .photo-upload-section {
                 padding: 20px;
             }
+
             .profile-img-preview {
                 width: 90px;
                 height: 90px;
             }
-            .btn-batal, .btn-simpan {
+
+            .btn-batal,
+            .btn-simpan {
                 padding: 10px 30px;
                 width: 100%;
                 text-align: center;
             }
+
             .d-flex.justify-content-end {
                 flex-direction: column;
             }
@@ -220,6 +268,14 @@
         function updateFileName(input) {
             const fileName = input.files[0] ? input.files[0].name : 'No file chosen';
             document.getElementById('file-name-display').textContent = fileName;
+
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('profile-img-preview').src = event.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     </script>
 @endpush

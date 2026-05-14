@@ -1,6 +1,13 @@
 @extends('layouts.web.main')
 
 @section('content')
+    @php
+        $currentUser = $user ?? Auth::user();
+        $fotoProfilUrl = $currentUser?->foto_profil
+            ? asset('storage/' . $currentUser->foto_profil)
+            : asset('images/profil2.jpg');
+    @endphp
+
     <!-- Profile Header Background -->
     <div class="profile-header-bg"></div>
 
@@ -11,10 +18,10 @@
                 <div class="col-lg-10">
                     <div class="profile-card">
                         <div class="profile-img-wrapper">
-                            <img src="{{ asset('images/profil2.jpg') }}" alt="{{ Auth::user()->name }}" class="profile-img">
+                            <img src="{{ $fotoProfilUrl }}" alt="{{ $currentUser?->name }}" class="profile-img">
                         </div>
-                        <h2 class="profile-name">{{ Auth::user()->name }}</h2>
-                        <p class="profile-email">{{ Auth::user()->email }}</p>
+                        <h2 class="profile-name">{{ $currentUser?->name }}</h2>
+                        <p class="profile-email">{{ $currentUser?->email }}</p>
                         <a href="{{ route('profil.edit') }}" class="btn-edit-profil">
                             <img src="{{ asset('icons/edit.png') }}" alt="" width="16"> Edit Profil
                         </a>
@@ -98,9 +105,11 @@
             .profile-name {
                 font-size: 1.2rem;
             }
+
             .profile-card {
                 padding: 40px 20px;
             }
+
             .profile-img {
                 width: 150px;
                 height: 150px;
